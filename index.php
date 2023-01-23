@@ -1,6 +1,15 @@
 <!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=123456&tech=goutorbe&date=23/01/2023&choix=3 -->
 <?php
+//Affichage des erreurs en détail
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Initialisation de la session
 session_start();
+
+//Déclaration des variables
+$errors = "";
 
 // Connexion à la base de données
 define('USER', "officecequalit");
@@ -29,23 +38,37 @@ $url .= $_SERVER['REQUEST_URI'];
 // Récupération des paramètres de l'url
 $components = parse_url($url);
 parse_str($components['query'], $results);
-$interid = htmlspecialchars($results['inter']);
-$techname = htmlspecialchars($results['tech']);
+$inter = htmlspecialchars($results['inter']);
+$tech = htmlspecialchars($results['tech']);
 $interdt = htmlspecialchars($results['date']);
 $choice = htmlspecialchars($results['choix']);
-
-echo " Inter ID : " . $interid . "<br> Technicien : " . $techname . "<br> Date de l'inter : " . $interdt . "<br>Choix du client : " . $choice;
 
 // Récupération de la date actuelle sous le format JJ/MM/AAAA
 $getdt = new \DateTime();
 $dt = $getdt->format('d/m/Y');
-echo "<br><br>" . $dt;
 
+// Vérification de la validité du numéro d'intervention
+$stmt = $db->prepare("SELECT * FROM client_satisfaction where inter = ?");
+$stmt->execute([$inter]);
+$interCount = $stmt->rowCount();
+$stmt = "";
 
+if ($interCount == 0) {
+    $sql = "INSERT INTO client_satisfaction (inter, tech, choice, survey_date, inter_date) VALUES (:inter, :tech, :choice, :dt, :interdt)";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam('inter', $inter);
+    $stmt->bindParam('tech', $tech);
+    $stmt->bindParam('choice', $choice);
+    $stmt->bindParam('dt', $dt);
+    $stmt->bindParam('interdt', $interdt);
+    $stmt->execute();
+    $query = true;
+} else {
+    $errors .= "L'intervention " . $inter . " possède déjà un questionnaire de rempli.";
+    $query = false;
+    die();
+}
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,6 +80,13 @@ echo "<br><br>" . $dt;
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <?php
+    if ($query) { ?>
+        <!-- code... -->
+    <?php } else { ?>
+        <!-- code... -->
+    <?php }
+    ?>
     
 </body>
 </html>
