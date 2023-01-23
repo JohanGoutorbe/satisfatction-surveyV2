@@ -12,8 +12,8 @@ session_start();
 $errors = "";
 
 // Connexion à la base de données
-define('USER', "officecequalit");
-define('PASSWD', "Bimbamboum22");
+define('USER', "root");
+define('PASSWD', "");
 define('SERVER', "localhost");
 define('BASE', 'officecequalit');
 
@@ -82,11 +82,38 @@ if ($interCount == 0) {
 <body>
     <?php
     if ($query) { ?>
-        <!-- code... -->
+    <div class="container">
+        <div class="block" style="text-align:center">
+            <h1>Merci d'avoir donné votre avis !</h1>
+            <h2>Votre retour concernant l'intervention <?php echo $inter; ?> a bien été pris en compte</h2>
+            <p><span id="timer"></span></p>
+        </div>
+    </div>
     <?php } else { ?>
-        <!-- code... -->
+    <div class="container">
+        <div class="block">
+            <h1>Une erreur est parvenu pendant l'envoi de votre avis : <?php echo $errors; ?></h1>
+            <h2>Votre retour concernant l'intervention <?php echo $inter ?> a bien été pris en compte</h2>
+        </div>
+    </div>
     <?php }
     ?>
     
+<!--
+    <script type="text/javascript">
+        let count = 10;
+        let redirect = "https://www.officecenter.fr/";
+        function countdown() {
+            let timer = document.getElementById("timer");
+            if (count > 0) {
+                count--;
+                timer.innerHTML = "Cette page sera redirigée dans "+count+" secondes.";
+                setTimeout("countdown()", 1000);
+            } else {
+                window.location.href = redirect;
+            }
+        }
+        countdown();
+    </script>-->
 </body>
 </html>
