@@ -99,7 +99,6 @@ if ($interCount == 0) {
     <?php }
     ?>
     
-<!--
     <script type="text/javascript">
         let count = 10;
         let redirect = "https://www.officecenter.fr/";
@@ -114,6 +113,6 @@ if ($interCount == 0) {
             }
         }
         countdown();
-    </script>-->
+    </script>
 </body>
 </html>
