@@ -1,4 +1,5 @@
-<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=123456&tech=goutorbe&date=23/01/2023&choix=3 -->
+<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=123456&tech=goutorbe&date=23/01/2023&choix=3 
+https://www.youtube.com/watch?v=AF6vGYIyV8M-->
 <?php
 //Affichage des erreurs en détail
 ini_set('display_errors', 1);
