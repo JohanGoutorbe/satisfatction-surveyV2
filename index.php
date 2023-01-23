@@ -1,3 +1,4 @@
+<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=123456&tech=goutorbe&date=23/01/2023&choix=3 -->
 <?php
 session_start();
 
@@ -28,12 +29,17 @@ $url .= $_SERVER['REQUEST_URI'];
 // Récupération des paramètres de l'url
 $components = parse_url($url);
 parse_str($components['query'], $results);
-$interid = $results['inter'];
-$techname = $results['tech'];
-$interdt = $results['date'];
-$choice = $results['choix'];
+$interid = htmlspecialchars($results['inter']);
+$techname = htmlspecialchars($results['tech']);
+$interdt = htmlspecialchars($results['date']);
+$choice = htmlspecialchars($results['choix']);
 
 echo " Inter ID : " . $interid . "<br> Technicien : " . $techname . "<br> Date de l'inter : " . $interdt . "<br>Choix du client : " . $choice;
+
+// Récupération de la date actuelle sous le format JJ/MM/AAAA
+$getdt = new \DateTime();
+$dt = $getdt->format('d/m/Y');
+echo "<br><br>" . $dt;
 
 
 ?>
