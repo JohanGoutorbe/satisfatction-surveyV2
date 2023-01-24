@@ -74,6 +74,7 @@ if ($interCount == 0) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Satisfaction Survey V2</title><link rel="preconnect" href="https://fonts.googleapis.com">
@@ -102,7 +103,7 @@ if ($interCount == 0) {
             text-align: center;
             padding: 0 30px 30px;
             color: #333;
-            animation: open 0.5s ease;
+            animation: open 0.75s ease;
         }
         @keyframes open {
             0% {
@@ -172,19 +173,19 @@ if ($interCount == 0) {
     ?>
     
     <script type="text/javascript">
-        let count = 10;
+        let count = 15;
         let redirect = "https://www.officecenter.fr/";
         function countdown() {
             let timer = document.getElementById("timer");
             if (count > 0) {
                 count--;
-                timer.innerHTML = "Cette page sera redirigée dans "+count+" secondes.";
+                timer.innerHTML = "<br>Cette page sera redirigée dans <br><strong>"+count+" secondes.</strong>";
                 setTimeout("countdown()", 1000);
             } else {
                 window.location.href = redirect;
             }
         }
-        //countdown();
+        countdown();
     </script>-->
 </body>
 </html>
