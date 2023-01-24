@@ -1,7 +1,7 @@
-<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=123456&tech=goutorbe&date=23/01/2023&choix=3&mail=johan@officecenter.fr -->
+<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=564782&tech=goutorbe&date=23/01/2023&choix=5&mail=paul@officecenter.fr -->
 
 <?php
-//Affichage des erreurs en détail
+//Affichage du détail des erreurs
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -44,13 +44,13 @@ $components = parse_url($url);
 parse_str($components['query'], $results);
 $inter = htmlspecialchars($results['inter']);
 $tech = htmlspecialchars($results['tech']);
-$interdt = $results['date'];
+$interdt = htmlspecialchars($results['date']);
 $choice = htmlspecialchars($results['choix']);
 $email = htmlspecialchars($results['mail']);
 
 // Vérification du respect de la charte des paramètres de l'url
 if (ctype_digit($inter)) {
-    if ($inter > 120000 && $inter < 999999) {
+    if ($inter > 120000 && $inter < 1000000) {
         if (ctype_alpha($tech) && strlen($tech) < 50) {
             if (DateTime::createFromFormat($format, $interdt)) {
                 if ($choice > 0 && $choice < 6) {
@@ -81,21 +81,32 @@ if ($request) {
     $dt = $getdt->format('d/m/Y');
 
     // Vérification de la validité du numéro d'intervention
-    $stmt = $db->prepare("SELECT * FROM client_satisfaction where inter = ?");
+    $stmt = $db->prepare("SELECT inter FROM `client_satisfaction` where inter = ?");
     $stmt->execute([$inter]);
     $interCount = $stmt->rowCount();
     $stmt = "";
 
     if ($interCount == 0) {
+        // Vérification si l'email a déjà voté pour 5 étoiles
+        $getEmail = $db->prepare("SELECT * FROM `client_satisfaction` where email = ? and choice = 5");
+        $getEmail->execute([$email]);
+        $emailCount = $getEmail->rowCount();
+
         // Application de la requête préparée
-        $sql = "INSERT INTO client_satisfaction (inter, tech, choice, survey_date, inter_date) VALUES (:inter, :tech, :choice, :dt, :interdt)";
+        $sql = "INSERT INTO `client_satisfaction` (inter, tech, choice, survey_date, inter_date, email) VALUES (:inter, :tech, :choice, :dt, :interdt, :email)";
         $stmt = $db->prepare($sql);
         $stmt->bindParam('inter', $inter);
         $stmt->bindParam('tech', $tech);
         $stmt->bindParam('choice', $choice);
         $stmt->bindParam('dt', $dt);
         $stmt->bindParam('interdt', $interdt);
+        $stmt->bindParam('email', $email);
         $stmt->execute();
+        
+        // Si l'email a déjà mis 5 étoiles, rediriger vers Notation Google
+        if ($emailCount == 0) {
+            header("Location: https://g.page/r/CQ_CHW3pUmqBEAI/review");
+        }
         $query = true;
     } else {
         $errors .= "L'intervention " . $inter . " possède déjà un questionnaire.";
