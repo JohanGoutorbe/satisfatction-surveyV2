@@ -64,10 +64,9 @@ if ($interCount == 0) {
     $stmt->bindParam('interdt', $interdt);
     $stmt->execute();
     $query = true;
-} else {
+} elseif ($interCount > 0) {
     $errors .= "L'intervention " . $inter . " possède déjà un questionnaire de rempli.";
     $query = false;
-    die();
 }
 ?>
 
@@ -82,7 +81,7 @@ if ($interCount == 0) {
 </head>
 <body>
     <?php
-    if ($query) { ?>
+    if ($query == true) { ?>
     <div class="container">
         <div class="block" style="text-align:center">
             <h1>Merci d'avoir donné votre avis !</h1>
@@ -93,13 +92,14 @@ if ($interCount == 0) {
     <?php } else { ?>
     <div class="container">
         <div class="block">
-            <h1>Une erreur est parvenu pendant l'envoi de votre avis : <?php echo $errors; ?></h1>
-            <h2>Votre retour concernant l'intervention <?php echo $inter ?> a bien été pris en compte</h2>
+            <h1>Une erreur est parvenu pendant l'envoi de votre avis</h1>
+            <h2><?php echo $errors; ?></h2>
         </div>
     </div>
     <?php }
     ?>
     
+    <!--
     <script type="text/javascript">
         let count = 10;
         let redirect = "https://www.officecenter.fr/";
@@ -114,6 +114,6 @@ if ($interCount == 0) {
             }
         }
         countdown();
-    </script>
+    </script>-->
 </body>
 </html>
