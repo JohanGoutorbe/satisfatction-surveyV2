@@ -1,4 +1,4 @@
-<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=123456&tech=goutorbe&date=23/01/2023&choix=3 -->
+<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=123456&tech=goutorbe&date=23/01/2023&choix=3&mail=johan@officecenter.fr -->
 <?php
 //Affichage des erreurs en détail
 ini_set('display_errors', 1);
@@ -10,6 +10,9 @@ session_start();
 
 //Déclaration des variables
 $errors = "";
+$format = "d/m/Y";
+$query = false;
+$request = false;
 
 // Connexion à la base de données
 define('USER', "root");
@@ -40,33 +43,62 @@ $components = parse_url($url);
 parse_str($components['query'], $results);
 $inter = htmlspecialchars($results['inter']);
 $tech = htmlspecialchars($results['tech']);
-$interdt = htmlspecialchars($results['date']);
+$interdt = $results['date'];
 $choice = htmlspecialchars($results['choix']);
+$email = htmlspecialchars($results['mail']);
 
-// Récupération de la date actuelle sous le format JJ/MM/AAAA
-$getdt = new \DateTime();
-$dt = $getdt->format('d/m/Y');
+// Vérification du respect de la charte des paramètres de l'url
+if (ctype_digit($inter)) {
+    if ($inter > 120000 && $inter < 999999) {
+        if (ctype_alpha($tech) && strlen($tech) < 50) {
+            if (DateTime::createFromFormat($format, $interdt)) {
+                if ($choice > 0 && $choice < 6) {
+                    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $request = true;
+                    } else {
+                        $errors .= "L'adresse email <strong>".$email."</strong> est incorrecte";
+                    }
+                } else {
+                    $errors .= "La notation sélectionnée <strong>".$choice."</strong> est incorrecte";
+                }
+            } else {
+                $errors .= "La date saisie <strong>".$interdt."</strong> est incorrecte";
+            }
+        } else {
+            $errors .= "Le nom du technicien <strong>".$tech."</strong> est incorrect";
+        }
+    } else {
+        $errors .= "Le numéro de l'intervention <strong>" . $inter . "</strong> est incorrect";
+    }
+} else {
+    $errors .= "Le numéro de l'intervention <strong>".$inter."</strong> est incorrect";
+}
 
-// Vérification de la validité du numéro d'intervention
-$stmt = $db->prepare("SELECT * FROM client_satisfaction where inter = ?");
-$stmt->execute([$inter]);
-$interCount = $stmt->rowCount();
-$stmt = "";
+if ($request) {
+    // Récupération de la date actuelle sous le format JJ/MM/AAAA
+    $getdt = new \DateTime();
+    $dt = $getdt->format('d/m/Y');
 
-if ($interCount == 0) {
-    // Application de la requête préparée
-    $sql = "INSERT INTO client_satisfaction (inter, tech, choice, survey_date, inter_date) VALUES (:inter, :tech, :choice, :dt, :interdt)";
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam('inter', $inter);
-    $stmt->bindParam('tech', $tech);
-    $stmt->bindParam('choice', $choice);
-    $stmt->bindParam('dt', $dt);
-    $stmt->bindParam('interdt', $interdt);
-    $stmt->execute();
-    $query = true;
-} elseif ($interCount > 0) {
-    $errors .= "L'intervention " . $inter . " possède déjà un questionnaire.";
-    $query = false;
+    // Vérification de la validité du numéro d'intervention
+    $stmt = $db->prepare("SELECT * FROM client_satisfaction where inter = ?");
+    $stmt->execute([$inter]);
+    $interCount = $stmt->rowCount();
+    $stmt = "";
+
+    if ($interCount == 0) {
+        // Application de la requête préparée
+        $sql = "INSERT INTO client_satisfaction (inter, tech, choice, survey_date, inter_date) VALUES (:inter, :tech, :choice, :dt, :interdt)";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam('inter', $inter);
+        $stmt->bindParam('tech', $tech);
+        $stmt->bindParam('choice', $choice);
+        $stmt->bindParam('dt', $dt);
+        $stmt->bindParam('interdt', $interdt);
+        $stmt->execute();
+        $query = true;
+    } else {
+        $errors .= "L'intervention " . $inter . " possède déjà un questionnaire.";
+    }
 }
 ?>
 
@@ -154,7 +186,7 @@ if ($interCount == 0) {
         <div class="popup">
             <img src="./tick.png">
             <h1>Merci d'avoir donné votre avis</h1>
-            <p>Votre retour concernant l'intervention <?php echo $inter; ?> a bien été pris en compte</p>
+            <p>Votre note de <?php echo $choice ?> étoiles concernant l'intervention <?php echo $inter; ?> a bien été pris en compte</p>
             <p><span id="timer"></span></p>
             <a href="https://www.officecenter.fr"><button type="button">OK</button></a>
         </div>
@@ -185,7 +217,7 @@ if ($interCount == 0) {
                 window.location.href = redirect;
             }
         }
-        countdown();
+        //countdown();
     </script>-->
 </body>
 </html>
