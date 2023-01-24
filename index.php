@@ -1,5 +1,4 @@
-<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=123456&tech=goutorbe&date=23/01/2023&choix=3 
-https://www.youtube.com/watch?v=AF6vGYIyV8M-->
+<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=123456&tech=goutorbe&date=23/01/2023&choix=3 -->
 <?php
 //Affichage des erreurs en détail
 ini_set('display_errors', 1);
@@ -55,6 +54,7 @@ $interCount = $stmt->rowCount();
 $stmt = "";
 
 if ($interCount == 0) {
+    // Application de la requête préparée
     $sql = "INSERT INTO client_satisfaction (inter, tech, choice, survey_date, inter_date) VALUES (:inter, :tech, :choice, :dt, :interdt)";
     $stmt = $db->prepare($sql);
     $stmt->bindParam('inter', $inter);
