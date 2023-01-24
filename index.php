@@ -1,5 +1,4 @@
 <!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=564782&tech=goutorbe&date=23/01/2023&choix=5&mail=paul@officecenter.fr -->
-
 <?php
 //Affichage du détail des erreurs
 ini_set('display_errors', 1);
@@ -103,7 +102,7 @@ if ($request) {
         $stmt->bindParam('email', $email);
         $stmt->execute();
         
-        // Si l'email a déjà mis 5 étoiles, rediriger vers Notation Google
+        // Si l'email n'a pas encore mis 5 étoiles, rediriger vers la note Google
         if ($emailCount == 0) {
             header("Location: https://g.page/r/CQ_CHW3pUmqBEAI/review");
         }
@@ -162,7 +161,6 @@ if ($request) {
                 top: 50%;
                 transform: translate(-50%, -50%) scale(1);
             }
-
         }
         .popup img {
             width: 100px;
