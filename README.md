@@ -59,6 +59,7 @@ CREATE TABLE client_satisfaction (
     email VARCHAR(100) NOT NULL
 )
 ```
+> Il est important de noter qu'il est préférable de faire une sauvegarde de votre base de données avant toutes modifications, et de vérifier que la syntaxe SQL est correcte avant de l'exécuter, et de vérifier tous les prérequis  et étape mentionnés ci-dessus pour un bon fonctionnement de votre projet.
 
 4. Utilisez une URL de type http://localhost/satisfaction-surveyV2/index.php?inter=564782&tech=goutorbe&date=23/01/2023&choix=5&mail=paul@officecenter.fr pour accéder à la page de questionnaire.
 ***
