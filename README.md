@@ -1,4 +1,4 @@
-﻿# Questionnaire de ssatisfaction client
+﻿# Questionnaire de satisfaction client
 
 Questionnaire De Satisfaction Fait Par Johan Goutorbe Pour Office Center Le 25/01/2023
 
