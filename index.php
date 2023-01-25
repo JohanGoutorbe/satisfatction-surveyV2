@@ -1,4 +1,4 @@
-<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=564782&tech=goutorbe&date=23/01/2023&choix=5&mail=paul@officecenter.fr -->
+<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=643197&tech=goutorbe&date=23/01/2023&choix=5&mail=bastien@officecenter.fr -->
 <?php
 //Affichage du détail des erreurs
 ini_set('display_errors', 1);
@@ -11,7 +11,7 @@ session_start();
 //Déclaration des variables
 $errors = "";
 $format = "d/m/Y";
-$query = false;
+$query = 0;
 $request = false;
 
 // Connexion à la base de données
@@ -79,12 +79,11 @@ if ($request) {
     $getdt = new \DateTime();
     $dt = $getdt->format('d/m/Y');
 
-    // Vérification de la validité du numéro d'intervention
+    // Vérification si l'inter a déjà été notée
     $stmt = $db->prepare("SELECT inter FROM `client_satisfaction` where inter = ?");
     $stmt->execute([$inter]);
     $interCount = $stmt->rowCount();
     $stmt = "";
-
     if ($interCount == 0) {
         // Vérification si l'email a déjà voté pour 5 étoiles
         $getEmail = $db->prepare("SELECT * FROM `client_satisfaction` where email = ? and choice = 5");
@@ -106,9 +105,26 @@ if ($request) {
         if ($emailCount == 0 && $choice == 5) {
             header("Location: https://g.page/r/CQ_CHW3pUmqBEAI/review");
         }
-        $query = true;
-    } else {
-        $errors .= "L'intervention " . $inter . " possède déjà un questionnaire.";
+        $query = 1;
+    } elseif ($interCount == 1) {
+        // Vérification si l'email a déjà voté pour 5 étoiles
+        $getEmail = $db->prepare("SELECT * FROM `client_satisfaction` where email = ? and choice = 5");
+        $getEmail->execute([$email]);
+        $emailCount = $getEmail->rowCount();
+        
+        // Application de la requête préparée
+        $update = "UPDATE `client_satisfaction` SET survey_date = :dt, choice = :choice WHERE inter = :inter";
+        $stmt = $db->prepare($update);
+        $stmt->bindParam('dt', $dt);
+        $stmt->bindParam('choice', $choice);
+        $stmt->bindParam('inter', $inter);
+        $stmt->execute();
+        $query = 2;
+        
+        // Si l'email n'a pas encore mis 5 étoiles, rediriger vers la note Google
+        if ($emailCount == 0 && $choice == 5) {
+            header("Location: https://g.page/r/CQ_CHW3pUmqBEAI/review");
+        }
     }
 }
 ?>
@@ -191,7 +207,7 @@ if ($request) {
 </head>
 <body>
     <?php
-    if ($query == true) { ?>
+    if ($query == 1) { ?>
     <div class="container">
         <div class="popup">
             <img src="./tick.png">
@@ -201,7 +217,7 @@ if ($request) {
             <a href="https://www.officecenter.fr"><button type="button">OK</button></a>
         </div>
     </div>
-    <?php } else { ?>
+    <?php } elseif ($query == 0) { ?>
     <div class="container">
         <div class="popup open-popup">
             <img src="./no.png">
@@ -211,11 +227,19 @@ if ($request) {
             <a href="https://www.officecenter.fr"><button type="button">OK</button></a>
         </div>
     </div>
-    <?php }
-    ?>
+    <?php } elseif ($query == 2) { ?>
+        <div class="container">
+        <div class="popup open-popup">
+            <img src="./tick.png">
+            <h1>Votre choix a bien été modifié</h1>
+            <p>Votre nouvelle note de <?php echo $choice ?> étoiles concernant l'intervention <?php echo $inter; ?> a bien été pris en compte</p>
+            <p><span id="timer"></span></p>
+            <a href="https://www.officecenter.fr"><button type="button">OK</button></a>
+        </div>
+    <?php } ?>
     
     <script type="text/javascript">
-        let count = 15;
+        let count = 20;
         let redirect = "https://www.officecenter.fr/";
         function countdown() {
             let timer = document.getElementById("timer");
