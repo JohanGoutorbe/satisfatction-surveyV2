@@ -3,7 +3,7 @@
 Ce qestionnaire de satisfaction a été entièrement réalisé par Johan Goutorbe pour la société Office Center le 25/01/2023.
 
 ## Table des Matières
-***
+
 1. [Introduction](#Introduction)
 2. [Fonctionnement](#Fonctionnement)
 3. [Prérequis](#Prérequis)
@@ -13,7 +13,7 @@ Ce qestionnaire de satisfaction a été entièrement réalisé par Johan Goutorb
 7. [Note](#Note)
 8. [Conclusion](#Conclusion)
 9. [Remerciement](#Remerciement)
-
+***
 ## Introduction
 
 Ce projet est un questionnaire de satisfaction client créé en PHP pour enregistrer les informations d'une intervention. Les informations sont récupérées via une méthode GET d'une URL, puis vérifiées pour leur validité avant d'être enregistrées dans une base de données MySQL.
@@ -63,12 +63,11 @@ CREATE TABLE client_satisfaction (
 4. Utilisez une URL de type http://localhost/satisfaction-surveyV2/index.php?inter=564782&tech=goutorbe&date=23/01/2023&choix=5&mail=paul@officecenter.fr pour accéder à la page de questionnaire.
 ***
 ## Utilisation
-x
+
 1. Entrez les informations de l'intervention via les paramètres de l'URL.
 2. Sélectionnez une note de satisfaction de 1 à 5.
 3. Entrez votre adresse email.
-
-    Soumettez le formulaire pour enregistrer les informations dans la base de données.
+4. Soumettez le formulaire pour enregistrer les informations dans la base de données.
 ***
 ## Note
 
