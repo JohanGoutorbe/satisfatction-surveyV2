@@ -1,6 +1,6 @@
 ﻿# Questionnaire de satisfaction client
 
-Ce qestionnaire de satisfaction a été entièrement réalisé par Johan Goutorbe pour la société Office Center le 25/01/2023.s
+Ce qestionnaire de satisfaction a été entièrement réalisé par Johan Goutorbe pour la société Office Center le 25/01/2023.
 
 ## Table des Matières
 1. [Fonctionnement](#Fonctionnement)
