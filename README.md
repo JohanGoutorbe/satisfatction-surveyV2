@@ -13,3 +13,12 @@ Cette page PHP utilise la méthode GET pour récupérer les paramètres d'une UR
 
 ### Prérequis
 
+### Installation
+
+#### Installation locale
+```
+$ git clone https://github.com/JohanGoutorbe/satisfatction-surveyV2
+```
+#### Installation Base de Données
+
+Ce serveur
