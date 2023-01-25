@@ -111,7 +111,6 @@ if ($request) {
         $errors .= "L'intervention " . $inter . " possède déjà un questionnaire.";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
