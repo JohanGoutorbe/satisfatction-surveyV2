@@ -103,7 +103,7 @@ if ($request) {
         $stmt->execute();
         
         // Si l'email n'a pas encore mis 5 étoiles, rediriger vers la note Google
-        if ($emailCount == 0) {
+        if ($emailCount == 0 && $choice == 5) {
             header("Location: https://g.page/r/CQ_CHW3pUmqBEAI/review");
         }
         $query = true;
@@ -111,6 +111,7 @@ if ($request) {
         $errors .= "L'intervention " . $inter . " possède déjà un questionnaire.";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -227,7 +228,7 @@ if ($request) {
                 window.location.href = redirect;
             }
         }
-        //countdown();
+        countdown();
     </script>-->
 </body>
 </html>
