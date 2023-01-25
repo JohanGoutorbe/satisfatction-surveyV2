@@ -3,8 +3,15 @@
 Ce qestionnaire de satisfaction a été entièrement réalisé par Johan Goutorbe pour la société Office Center le 25/01/2023.
 
 ## Table des Matières
-1. [Fonctionnement](#Fonctionnement)
-2. [Prérequis](#Prérequis)
+1. [Introduction](#Introduction)
+2. [Fonctionnement](#Fonctionnement)
+3. [Prérequis](#Prérequis)
+4. [Téléchargement](#Téléchargement)
+5. [Installation](#Installation)
+6. [Utilisation](#Utilisation)
+7. [Note](#Note)
+8. [Conclusion](#Conclusion)
+9. [Remerciement](#Remerciement)
 
 ## Introduction
 Ce projet est un questionnaire de satisfaction client créé en PHP pour enregistrer les informations d'une intervention. Les informations sont récupérées via une méthode GET d'une URL, puis vérifiées pour leur validité avant d'être enregistrées dans une base de données MySQL.
@@ -68,10 +75,6 @@ Assurez-vous de masquer les informations d'erreur pour la production pour évite
 ## Conclusion
 
 Ce README.md fournit une vue d'ensemble complète des prérequis, de l'installation, de l'utilisation, des remerciements et de la méthode de téléchargement pour ce projet de questionnaire de satisfaction client. Il est important de vérifier que toutes les informations sont à jour et de conserver une logique de présentation pour faciliter la compréhension pour les utilisateurs.
-
-## Précision
-
-Ce GitHub a été généré à 80% par l'outil IA ChatGPT (https://chat.openai.com/).
 
 ## Remerciement
 
