@@ -75,7 +75,7 @@ if (ctype_digit($inter)) {
 }
 
 if ($request) {
-    // Récupération de la date actuelle sous le format JJ/MM/AAAA
+    // Récupération de la date actuelle
     $getdt = new \DateTime();
     $dt = $getdt->format('d/m/Y');
 
