@@ -240,7 +240,7 @@ if ($request) {
     <?php } ?>
     
     <script type="text/javascript">
-        let count = 20;
+        let count = 5;
         let redirect = "https://www.officecenter.fr/";
         function countdown() {
             let timer = document.getElementById("timer");
