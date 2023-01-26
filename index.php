@@ -153,6 +153,7 @@ if ($request) {
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
         }
         .popup {
             width: 400px;
@@ -194,7 +195,7 @@ if ($request) {
             width: 100%;
             margin-top: 35px;
             padding: 10px 0;
-            background: #6fd649;
+            background: #1b74e4;
             color: #fff;
             border: 0;
             outline: none;
