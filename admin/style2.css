@@ -1,0 +1,105 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #23242a;
+    color: #fff;
+}
+
+header {
+    width: 100vw;
+    height: 100px;
+    display: flex;
+    justify-content: right;
+    margin-bottom: 1em;
+}
+
+header button {
+    height: 60px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding: 0 2em 0 2em;
+    margin: 1em 1em 0 1em;
+    border: none;
+    outline: none;
+    background: #1b74e4;
+    border-radius: 4px;
+    font-weight: 400;
+    font-size: 25px;
+    cursor: pointer;
+    color: #fff;
+}
+
+header button:hover {
+    scale: 1.1;
+}
+
+header .logout {
+    padding-left: 1em;
+    margin-right: 1.5em;
+}
+
+header button ion-icon {
+    width: 20px;
+    padding-right: 0.75em;
+    padding-left: 0.5em;
+    width: 25px;
+}
+
+.content {
+    width: 90%;
+    height: 100vh;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+h1 {
+    color: #1b74e4;
+    font-weight: 600;
+    font-size: 2em;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5em;
+}
+
+section{
+    height: 300px;
+}
+
+
+footer .changePage{
+    display: flex;
+    justify-content: center;
+}
+.previous, .next {
+    width: 120px;
+    height: 70px;
+    border: none;
+    outline: none;
+    background: #1b74e4;
+    border-radius: 50%;
+    font-size: 15px;
+    cursor: pointer;
+    color: #fff;
+    vertical-align: middle;
+}
+.previous:active, .next:active {
+    scale: 0.8;
+}
+.space{
+    width: 1em;
+}
+
+footer .queryInPage {
+    display: flex;
+    flex-flow: column wrap;
+    align-content: flex-end;
+}
+footer .queryInPage label {
+    height: 30px;
+}
