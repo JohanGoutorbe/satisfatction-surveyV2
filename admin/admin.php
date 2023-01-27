@@ -22,13 +22,18 @@ try {
 }
 
 // Récupération des informations de connexion
-$id = htmlspecialchars($_POST['id']);
-$pwd = htmlspecialchars($_POST['pwd']);
+$id = str_replace(' ', '', htmlspecialchars($_POST['id']));
+$pwd = str_replace(' ', '', htmlspecialchars($_POST['pwd']));
 
-//Vérifiation de la connexion
-if ($id == 'admin' && $pwd == 'Pa$$w0rdoc') {
-} else {
-    $_SESSION["error"] = "Identifiant ou mot de passe incorect !";
+// En cas d'erreur dans l'identification
+if ($id !== 'admin' && $pwd !== 'Pa$$w0rdoc') {
+    $_SESSION["error"] = "Identifiant et mot de passe incorect";
+    header('location: index.php');
+} elseif ($id !== 'admin') {
+    $_SESSION["error"] = "Identifiant incorect";
+    header('location: index.php');
+} elseif ($pwd !== 'Pa$$w0rdoc') {
+    $_SESSION["error"] = "Mot de passe incorect";
     header('location: index.php');
 }
 ?>
@@ -48,11 +53,26 @@ if ($id == 'admin' && $pwd == 'Pa$$w0rdoc') {
 
 <body>
     <header>
-        <button class="export">Exporter les données</button>
-        <button class="logout"><ion-icon name="log-out-outline"></ion-icon>Se déconnecter</button>
+        <button class="export"><ion-icon name="download-outline"></ion-icon>Exporter</button>
+        <a href="./logout.php"><button class="logout"><ion-icon name="log-out-outline"></ion-icon>Se déconnecter</button></a>
     </header>
     <div class="content">
-        <h1>Liste des questionnaires</h1>
+        <div class="head">
+            <h1>Liste des questionnaires</h1>
+            <div class="select-part">
+                <label>Trier par technicien :</label>
+                <div class="select">
+                    <select name="format" id="format">
+                        <option value="10">Charles</option>
+                        <option value="20">Goutorbe</option>
+                        <option value="50">Lingua</option>
+                        <option value="100">Primiterra</option>
+                        <option value="200">RaspailJ</option>
+                        <option value="200">Tassel</option>
+                    </select>
+                </div>
+            </div>
+        </div>
         <section class="list">
             <div class="line"></div>
             <div class="line"></div>
@@ -64,24 +84,26 @@ if ($id == 'admin' && $pwd == 'Pa$$w0rdoc') {
         </section>
         <footer>
             <div class="changePage">
-                <button type="submit" class="previous">Précédent</button><span class="space"></span>
-                <button type="submit" class="next">Suivante</button>
+                <button type="submit" class="previous"><ion-icon class="previous-page" name="chevron-back-circle-outline"></ion-icon></button>
+                <span class="space"></span>
+                <button type="submit" class="next"><ion-icon class="next-page" name="chevron-forward-circle-outline"></ion-icon></button>
             </div>
             <div class="queryInPage">
-                <label>Combien afficher par page?</label>
-                <select name="nbInPage">
-                    <option value="10">10 formulaires par page</option>
-                    <option value="20">20 formulaires par page</option>
-                    <option value="50">50 formulaires par page</option>
-                    <option value="100">100 formulaires par page</option>
-                    <option value="200">200 formulaires par page</option>
-                    <option value="0">Tout afficher</option>
-                </select>
+                <label>Afficher</label>
+                <div class="select">
+                    <select name="format" id="format">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                    </select>
+                </div>
+                <label>formulaires</label>
             </div>
         </footer>
     </div>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
-
 </html>
