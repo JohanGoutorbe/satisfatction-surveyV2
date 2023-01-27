@@ -22,20 +22,39 @@ try {
 }
 
 // Récupération des informations de connexion
-$id = str_replace(' ', '', htmlspecialchars($_POST['id']));
-$pwd = str_replace(' ', '', htmlspecialchars($_POST['pwd']));
+if (isset($_SESSION["login"]) && isset($_SESSION['password'])) {
+    $id = $_SESSION["login"];
+    $pwd = $_SESSION['password'];
+}
+
+if (isset($_POST['id']) && isset($_POST['pwd'])) {
+    $id = str_replace(' ', '', htmlspecialchars($_POST['id']));
+    $pwd = str_replace(' ', '', htmlspecialchars($_POST['pwd']));
+}
 
 // En cas d'erreur dans l'identification
 if ($id !== 'admin' && $pwd !== 'Pa$$w0rdoc') {
     $_SESSION["error"] = "Identifiant et mot de passe incorect";
     header('location: index.php');
+    $_SESSION['connected'] = false;
 } elseif ($id !== 'admin') {
     $_SESSION["error"] = "Identifiant incorect";
     header('location: index.php');
+    $_SESSION['connected'] = false;
 } elseif ($pwd !== 'Pa$$w0rdoc') {
     $_SESSION["error"] = "Mot de passe incorect";
     header('location: index.php');
+    $_SESSION['connected'] = false;
 }
+
+$_SESSION["login"] = $id;
+$_SESSION['password'] = $pwd;
+
+
+$sql = "SELECT * FROM `client_satisfaction` WHERE 1 ORDER BY `client_satisfaction`.`inter` DESC";
+$stmt = $db->prepare($sql);
+$stmt->execute();
+
 ?>
 
 <!DOCTYPE html>
@@ -74,13 +93,27 @@ if ($id !== 'admin' && $pwd !== 'Pa$$w0rdoc') {
             </div>
         </div>
         <section class="list">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
+        <table>
+            <thead>
+                <th>Intervention</th>
+                <th>Technicien</th>
+                <th>Adresse mail</th>
+                <th>Note du client</th>
+                <th>Date du formulaire</th>
+            </thead>
+            <tbody>
+            <?php
+            while ($query = $stmt->fetch()) {
+                echo "<tr>";
+                echo "<td>" . $query['inter'] . "</td>";
+                echo "<td>"  . $query['tech'] . "</td>";
+                echo "<td>" . $query['email'] . "</td>";
+                echo "<td>" . $query['choice'] . "</td>";
+                echo "<td>" . $query['survey_date'] . "</td>";
+                echo "</tr>";
+            }?>
+            </tbody>
+        </table>
         </section>
         <footer>
             <div class="changePage">
@@ -91,13 +124,15 @@ if ($id !== 'admin' && $pwd !== 'Pa$$w0rdoc') {
             <div class="queryInPage">
                 <label>Afficher</label>
                 <div class="select">
-                    <select name="format" id="format">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                        <option value="200">200</option>
-                    </select>
+                    <form action="" method="post" id="form">
+                        <select name="format" id="format" onchange="document.getElementById('form').submit()";>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="200">200</option>
+                        </select>
+                    </form>
                 </div>
                 <label>formulaires</label>
             </div>
