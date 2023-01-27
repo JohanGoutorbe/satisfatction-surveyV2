@@ -19,13 +19,17 @@ header {
     margin-bottom: 1em;
 }
 
+header a {
+    text-decoration: none;
+}
+
 header button {
     height: 60px;
     display: flex;
     justify-content: right;
     align-items: center;
-    padding: 0 2em 0 2em;
-    margin: 1em 1em 0 1em;
+    padding: 0 1.25em 0 1em;
+    margin: .5em 1em 0 1em;
     border: none;
     outline: none;
     background: #1b74e4;
@@ -41,14 +45,12 @@ header button:hover {
 }
 
 header .logout {
-    padding-left: 1em;
-    margin-right: 1.5em;
+    margin-right: 2em;
 }
 
 header button ion-icon {
-    width: 20px;
-    padding-right: 0.75em;
-    padding-left: 0.5em;
+    padding-right: .75em;
+    padding-left: .5em;
     width: 25px;
 }
 
@@ -59,6 +61,11 @@ header button ion-icon {
     margin-left: auto;
 }
 
+.head {
+    display: flex;
+    justify-content: space-between;
+}
+
 h1 {
     color: #1b74e4;
     font-weight: 600;
@@ -67,18 +74,23 @@ h1 {
     margin-bottom: 1.5em;
 }
 
-section{
+.select-part {
+    margin-right: 15%;
+}
+
+section {
     height: 300px;
 }
 
 
-footer .changePage{
+footer .changePage {
     display: flex;
     justify-content: center;
 }
+
 .previous, .next {
-    width: 120px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border: none;
     outline: none;
     background: #1b74e4;
@@ -88,18 +100,73 @@ footer .changePage{
     color: #fff;
     vertical-align: middle;
 }
+
+.previous-page, .next-page {
+    width: 35px;
+    height: 35px;
+    vertical-align: middle;
+}
+
 .previous:active, .next:active {
     scale: 0.8;
 }
-.space{
+
+.space {
     width: 1em;
 }
 
 footer .queryInPage {
     display: flex;
-    flex-flow: column wrap;
+    flex-direction: row;
     align-content: flex-end;
+    align-items: flex-end;
+    justify-content: right;
 }
+
 footer .queryInPage label {
     height: 30px;
+    font-size: 1.1em;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.queryInPage select {
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: #1b74e4;
+    background-image: none;
+    flex: 1;
+    padding: 0 .5em;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+}
+
+.queryInPage .select {
+    position: relative;
+    display: flex;
+    width: 5em;
+    height: 2.5em;
+    line-height: 3;
+    background: #1b74e4;
+    overflow: hidden;
+    border-radius: .25em;
+    margin: 0 .5em;
+}
+
+.queryInPage .select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 .5em 0 .25em;
+    background-color: #1b74e4;
+    cursor: pointer;
+    pointer-events: none;
+    transition: .25s all ease;
+    font-family: 'Poppins', sans-serif;
+    border: none;
 }
