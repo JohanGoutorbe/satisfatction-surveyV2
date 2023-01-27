@@ -92,37 +92,8 @@ thead, tfoot {
     color: #fff;
 }
 
-
-footer .changePage {
-    display: flex;
-    justify-content: center;
-}
-
-.previous, .next {
-    width: 60px;
-    height: 60px;
-    border: none;
-    outline: none;
-    background: #1b74e4;
-    border-radius: 50%;
-    font-size: 15px;
-    cursor: pointer;
-    color: #fff;
-    vertical-align: middle;
-}
-
-.previous-page, .next-page {
-    width: 35px;
-    height: 35px;
-    vertical-align: middle;
-}
-
-.previous:active, .next:active {
-    scale: 0.8;
-}
-
-.space {
-    width: 1em;
+footer {
+    margin-bottom: 50px;
 }
 
 footer .queryInPage {

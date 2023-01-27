@@ -103,24 +103,30 @@ $stmt->execute();
             </thead>
             <tbody>
             <?php
+            $i = 0;
+            if (isset($_POST['format'])) {
+                $loop = $_POST['format'];
+            } else {
+                $loop = 15;
+            }
+            
             while ($query = $stmt->fetch()) {
+                $i++;
                 echo "<tr>";
                 echo "<td>" . $query['inter'] . "</td>";
                 echo "<td>"  . $query['tech'] . "</td>";
                 echo "<td>" . $query['email'] . "</td>";
                 echo "<td>" . $query['choice'] . "</td>";
-                echo "<td>" . $query['survey_date'] . "</td>";
+                echo "<td>" . $query['inter_date'] . "</td>";
                 echo "</tr>";
+                if ($i == $loop) {
+                    break;
+                }
             }?>
             </tbody>
         </table>
         </section>
         <footer>
-            <div class="changePage">
-                <button type="submit" class="previous"><ion-icon class="previous-page" name="chevron-back-circle-outline"></ion-icon></button>
-                <span class="space"></span>
-                <button type="submit" class="next"><ion-icon class="next-page" name="chevron-forward-circle-outline"></ion-icon></button>
-            </div>
             <div class="queryInPage">
                 <label>Afficher</label>
                 <div class="select">
@@ -131,6 +137,7 @@ $stmt->execute();
                             <option value="50">50</option>
                             <option value="100">100</option>
                             <option value="200">200</option>
+                            <option value="500">500</option>
                         </select>
                     </form>
                 </div>
