@@ -78,8 +78,18 @@ h1 {
     margin-right: 15%;
 }
 
-section {
-    height: 300px;
+table {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+table, td {
+    border: 1px solid #333;
+}
+
+thead, tfoot {
+    background-color: #333;
+    color: #fff;
 }
 
 
@@ -129,6 +139,9 @@ footer .queryInPage label {
     margin-top: auto;
     margin-bottom: auto;
 }
+.queryInPage form {
+    height: 3em;
+}
 
 .queryInPage select {
     appearance: none;
@@ -167,6 +180,8 @@ footer .queryInPage label {
     cursor: pointer;
     pointer-events: none;
     transition: .25s all ease;
-    font-family: 'Poppins', sans-serif;
     border: none;
+}
+.queryInPage .select option {
+    font-family: 'Poppins', sans-serif;
 }
