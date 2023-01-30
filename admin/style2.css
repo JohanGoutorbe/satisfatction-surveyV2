@@ -102,6 +102,10 @@ table tbody {
     background-color: #222;
 }
 
+table tbody tr:hover {
+    background-color: rgb(45, 45, 45);
+}
+
 table tbody tr td {
     padding: 16px 0 16px 0;
     color: gray;
