@@ -23,14 +23,15 @@ try {
 }
 
 // Récupération des informations de connexion
-if (isset($_SESSION["login"]) && isset($_SESSION['password'])) {
-    $id = $_SESSION["login"];
-    $pwd = $_SESSION['password'];
-}
-
 if (isset($_POST['id']) && isset($_POST['pwd'])) {
     $id = str_replace(' ', '', htmlspecialchars($_POST['id']));
     $pwd = str_replace(' ', '', htmlspecialchars($_POST['pwd']));
+}
+
+// Si déjà connecté, n'as pas besoin de se reconnecter
+if (isset($_SESSION["login"]) && isset($_SESSION['password'])) {
+    $id = $_SESSION["login"];
+    $pwd = $_SESSION['password'];
 }
 
 // En cas d'erreur dans l'identification
