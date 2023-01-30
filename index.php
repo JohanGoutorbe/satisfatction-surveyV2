@@ -42,10 +42,10 @@ $url .= $_SERVER['REQUEST_URI'];
 $components = parse_url($url);
 parse_str($components['query'], $results);
 $inter = htmlspecialchars($results['inter']);
-$tech = htmlspecialchars($results['tech']);
+$tech = strtolower(htmlspecialchars($results['tech']));
 $interdt = htmlspecialchars($results['date']);
 $choice = htmlspecialchars($results['choix']);
-$email = htmlspecialchars($results['mail']);
+$email = strtolower(htmlspecialchars($results['mail']));
 
 // Vérification du respect de la charte des paramètres de l'url
 if (ctype_digit($inter)) {
