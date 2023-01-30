@@ -107,7 +107,7 @@ if (isset($_POST['export'])) {
         <form action="" method="post">
             <button class="export" type="submit" name="export"><ion-icon name="download-outline"></ion-icon>Exporter</button>
         </form>
-        <a href="./logout.php"><button class="logout"><ion-icon name="log-out-outline"></ion-icon>Se déconnecter</button></a>
+        <a href="./logout.php"><button class="logout" onClick="return confirm('Êtes-vous sûr de vouloir vous déconnecter ?');"><ion-icon name="log-out-outline"></ion-icon>Se déconnecter</button></a>
     </header>
     <div class="content">
         <div class="head">
