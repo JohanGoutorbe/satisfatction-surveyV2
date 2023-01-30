@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 
 // Initialisation de la session
 session_start();
+$output = "";
 
 // Connexion à la base de données
 define('USER', "root");
@@ -50,11 +51,41 @@ if ($id !== 'admin' && $pwd !== 'Pa$$w0rdoc') {
 $_SESSION["login"] = $id;
 $_SESSION['password'] = $pwd;
 
-
-$sql = "SELECT * FROM `client_satisfaction` WHERE 1 ORDER BY `client_satisfaction`.`inter` DESC";
-$stmt = $db->prepare($sql);
+// Requête si tri par technicien
+if (isset($_POST['techForm'])) {
+    $tech = $_POST['techForm'];
+    $sql = "SELECT * FROM `client_satisfaction` WHERE tech = :tech ORDER BY `client_satisfaction`.`inter` DESC";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam('tech', $tech);
+} else {
+    $sql = "SELECT * FROM `client_satisfaction` WHERE 1 ORDER BY `client_satisfaction`.`inter` DESC";
+    $stmt = $db->prepare($sql);
+}
 $stmt->execute();
 
+// Export des données dans un tableau Excel
+if (isset($_POST['export'])) {
+    // Récupération de la date actuelle
+    $getdt = new \DateTime();
+    $dt = $getdt->format('d/m/Y');
+
+    $query = "SELECT DISTINCT `inter`, `tech`, `choice`, `survey_date`, `inter_date`, `email` FROM `client_satisfaction` ORDER BY `inter` DESC";
+    $export = $db->prepare($query);
+    $export->execute();
+
+    $output .= '<table class="table"><tr><th>Intervention</th><th>Technicien</th><th>Note</th><th>Date</th><th>Email</th>';
+    if (!empty($export)) {
+        foreach ($export as $row) {
+            $output .= "\t" . '<tr><td>' . $row["inter"] . '</td>' . "\n" . '<td>' . $row["tech"] . '</td>' . "\n" . '<td>' . $row["choice"] . '</td>' . "\n" . '<td>' . $row["survey_date"] . '</td>' . "\n" . '<td>' . $row["email"] . '</td></tr>';
+        }
+    }
+    $output .= '</table>';
+    $filename = "export_questionnaire_satisfaction_" . $dt . ".xls";
+    header("Content-Type: application/xls");
+    header("Content-Disposition: attachment; filename=\"$filename\"");
+    echo $output;
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +103,9 @@ $stmt->execute();
 
 <body>
     <header>
-        <button class="export"><ion-icon name="download-outline"></ion-icon>Exporter</button>
+        <form action="" method="post">
+            <button class="export" type="submit" name="export"><ion-icon name="download-outline"></ion-icon>Exporter</button>
+        </form>
         <a href="./logout.php"><button class="logout"><ion-icon name="log-out-outline"></ion-icon>Se déconnecter</button></a>
     </header>
     <div class="content">
@@ -81,14 +114,17 @@ $stmt->execute();
             <div class="select-part">
                 <label>Trier par technicien :</label>
                 <div class="select">
-                    <select name="format" id="format">
-                        <option value="10">Charles</option>
-                        <option value="20">Goutorbe</option>
-                        <option value="50">Lingua</option>
-                        <option value="100">Primiterra</option>
-                        <option value="200">RaspailJ</option>
-                        <option value="200">Tassel</option>
-                    </select>
+                    <form action="" method="post" id="techForm">
+                        <select name="techForm" id="techForm" onchange="document.getElementById('techForm').submit()";>
+                            <option value=""></option>
+                            <option value="charles">Charles</option>
+                            <option value="goutorbe">Goutorbe</option>
+                            <option value="lingua">Lingua</option>
+                            <option value="primiterra">Primiterra</option>
+                            <option value="raspailj">Raspail</option>
+                            <option value="tassel">Tassel</option>
+                        </select>
+                    </form>
                 </div>
             </div>
         </div>
@@ -114,7 +150,7 @@ $stmt->execute();
                 $i++;
                 echo "<tr>";
                 echo "<td>" . $query['inter'] . "</td>";
-                echo "<td>"  . $query['tech'] . "</td>";
+                echo "<td>"  . ucfirst($query['tech']) . "</td>";
                 echo "<td>" . $query['email'] . "</td>";
                 echo "<td>" . $query['choice'] . "</td>";
                 echo "<td>" . $query['inter_date'] . "</td>";
@@ -132,6 +168,7 @@ $stmt->execute();
                 <div class="select">
                     <form action="" method="post" id="form">
                         <select name="format" id="format" onchange="document.getElementById('form').submit()";>
+                            <option value=""></option>
                             <option value="10">10</option>
                             <option value="20">20</option>
                             <option value="50">50</option>

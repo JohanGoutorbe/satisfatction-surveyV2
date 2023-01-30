@@ -9,6 +9,7 @@ body {
     min-height: 100vh;
     background: #23242a;
     color: #fff;
+    overflow-x: hidden;
 }
 
 header {
@@ -64,6 +65,7 @@ header button ion-icon {
 .head {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 1.5em;
 }
 
 h1 {
@@ -71,7 +73,6 @@ h1 {
     font-weight: 600;
     font-size: 2em;
     letter-spacing: 0.15em;
-    margin-bottom: 1.5em;
 }
 
 .select-part {
@@ -81,10 +82,32 @@ h1 {
 table {
     width: 100%;
     margin-bottom: 25px;
+    border-collapse: collapse;
 }
 
-table, td {
-    border: 1px solid #333;
+table thead {
+    background-color: #393939;
+}
+
+table thead th {
+    padding: 18px 0 18px 0;
+    color: #1b74e4;
+    font-size: 15px;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+table tbody {
+    box-sizing: border-box;
+    background-color: #222;
+}
+
+table tbody tr td {
+    padding: 16px 0 16px 0;
+    color: gray;
+    font-size: 15px;
+    line-height: 1.4;
+    padding-left: 30px;
 }
 
 thead, tfoot {
@@ -93,7 +116,7 @@ thead, tfoot {
 }
 
 footer {
-    margin-bottom: 50px;
+    padding-bottom: 75px;
 }
 
 footer .queryInPage {
@@ -110,11 +133,11 @@ footer .queryInPage label {
     margin-top: auto;
     margin-bottom: auto;
 }
-.queryInPage form {
+form {
     height: 3em;
 }
 
-.queryInPage select {
+select {
     appearance: none;
     outline: 0;
     box-shadow: none;
@@ -129,7 +152,7 @@ footer .queryInPage label {
     font-family: 'Poppins', sans-serif;
 }
 
-.queryInPage .select {
+.select {
     position: relative;
     display: flex;
     width: 5em;
@@ -141,7 +164,7 @@ footer .queryInPage label {
     margin: 0 .5em;
 }
 
-.queryInPage .select::after {
+.select::after {
     content: '\25BC';
     position: absolute;
     top: 0;
@@ -153,6 +176,6 @@ footer .queryInPage label {
     transition: .25s all ease;
     border: none;
 }
-.queryInPage .select option {
+.select option {
     font-family: 'Poppins', sans-serif;
 }
