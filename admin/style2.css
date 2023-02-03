@@ -100,6 +100,7 @@ table thead th {
     line-height: 1.4;
     text-align: left;
     text-transform: uppercase;
+    padding-left: 2%;
 }
 
 table tbody {
@@ -196,6 +197,9 @@ select {
     header {
         margin-bottom: 0;
     }
+    header button {
+        margin: 0.25em 1em 0 0;
+    }
     header form {
         height: 5em;
     }
@@ -223,16 +227,25 @@ select {
         margin-bottom: 0;
     }
     header button {
+        margin-right: 0;
+        margin-left: 0;
         padding: 0 .5em 0 0;
-        margin: .25em 0 0 0;
         justify-content: center;
         font-size: 20px;
     }
-    header button .export {
+    header .export {
         margin-right: .5em;
+    }
+    header a {
+        width: 170px;
+    }
+    header .logout {
+        height: 40px;
+        width: 170px;
     }
     header form {
         height: 5em;
+        width: 112.5px;
     }
     header a {
         height: 65px;
@@ -280,6 +293,30 @@ select {
         width: 95%;
         overflow-y: hidden;
     }
+    header {
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: 1.5em;
+    }
+    .head {
+        flex-direction: column;
+    }
+    h1 {
+        width: 215px;
+        margin: auto;
+        margin-bottom: 1.5em;
+    }
+    .select-part {
+        width: 258px;
+        margin: auto;
+        margin-bottom: 0.5em;
+    }
+    table thead th {
+        padding-left: 0;
+        padding-right: 15%;
+        text-align: center;
+
+    }
     table tbody tr td {
         padding-left: 0;
         font-size: 11px;
@@ -289,5 +326,18 @@ select {
     }
     table thead .th-note {
         padding-right: 10px;
+    }
+    footer {
+        display: flex;
+        justify-content: center;
+    }
+    footer .select {
+        width: 100px;
+    }
+    footer form {
+        width: 100px;
+    }
+    footer form select {
+        width: 100px;
     }
 }
