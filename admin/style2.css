@@ -57,7 +57,6 @@ header button ion-icon {
 
 .content {
     width: 90%;
-    height: 100vh;
     margin-right: auto;
     margin-left: auto;
 }
@@ -73,10 +72,15 @@ h1 {
     font-weight: 600;
     font-size: 2em;
     letter-spacing: 0.15em;
+    display: flex;
+    text-align: center;
 }
 
 .select-part {
     margin-right: 15%;
+    display: flex;
+    text-align: center;
+    align-items: center;
 }
 
 table {
@@ -94,6 +98,7 @@ table thead th {
     color: #1b74e4;
     font-size: 15px;
     line-height: 1.4;
+    text-align: left;
     text-transform: uppercase;
 }
 
@@ -182,4 +187,107 @@ select {
 }
 .select option {
     font-family: 'Poppins', sans-serif;
+}
+
+@media screen and (max-width: 991px) {
+    .container {
+        width: 95%;
+    }
+    header {
+        margin-bottom: 0;
+    }
+    header form {
+        height: 5em;
+    }
+    header a {
+        height: 75px;
+    }
+    header .logout {
+        margin-right: 35px;
+    }
+    h1 {
+        font-weight: 500;
+        letter-spacing: 0.05em;
+    }
+    .select-part {
+        margin-right: 5%;
+    }
+    footer {
+        padding-bottom: 25px;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    header {
+        height: 75px;
+        margin-bottom: 0;
+    }
+    header button {
+        padding: 0 .5em 0 0;
+        margin: .25em 0 0 0;
+        justify-content: center;
+        font-size: 20px;
+    }
+    header button .export {
+        margin-right: .5em;
+    }
+    header form {
+        height: 5em;
+    }
+    header a {
+        height: 65px;
+    }
+    h1 {
+        font-size: 1.5em;
+        font-weight: 500;
+    }
+    table thead th {
+        font-size: 13px;
+        font-weight: 500;
+    }
+    table tbody tr td {
+        font-size: 13px;
+    }
+}
+
+@media screen and (max-width: 625px) {
+    header {
+        height: 45px;
+        padding-bottom: 50px;
+    }
+    header form {
+        height: 40px;
+    }
+    header button {
+        height: 40px;
+        font-size: 15px;
+    }
+    header a {
+        height: 45px;
+    }
+    h1 {
+        font-size: 1.25em;
+    }
+    .select-part {
+        margin-right: 0;
+    }
+    select option {
+        font-size: 0.8em;
+    }
+}
+@media screen and (max-width: 550px) {
+    .content {
+        width: 95%;
+        overflow-y: hidden;
+    }
+    table tbody tr td {
+        padding-left: 0;
+        font-size: 11px;
+    }
+    table thead .th-email {
+        padding-left: 10px;
+    }
+    table thead .th-note {
+        padding-right: 10px;
+    }
 }
