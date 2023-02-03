@@ -8,6 +8,10 @@ error_reporting(E_ALL);
 session_start();
 $output = "";
 
+// Déclaration des identifiants de connexion attendus
+$identifiant = 'adminoc';
+$password = 'Pa$$w0rdoc';
+
 // Connexion à la base de données
 define('USER', "root");
 define('PASSWD', "");
@@ -35,15 +39,15 @@ if (isset($_SESSION["login"]) && isset($_SESSION['password'])) {
 }
 
 // En cas d'erreur dans l'identification
-if ($id !== 'admin' && $pwd !== 'Pa$$w0rdoc') {
+if ($id !== $identifiant && $pwd !== $password) {
     $_SESSION["error"] = "Identifiant et mot de passe incorect";
     header('location: index.php');
     $_SESSION['connected'] = false;
-} elseif ($id !== 'admin') {
+} elseif ($id !== $identifiant) {
     $_SESSION["error"] = "Identifiant incorect";
     header('location: index.php');
     $_SESSION['connected'] = false;
-} elseif ($pwd !== 'Pa$$w0rdoc') {
+} elseif ($pwd !== $password) {
     $_SESSION["error"] = "Mot de passe incorect";
     header('location: index.php');
     $_SESSION['connected'] = false;
@@ -55,12 +59,20 @@ $_SESSION['password'] = $pwd;
 // Requête si tri par technicien
 if (isset($_POST['techForm'])) {
     $tech = $_POST['techForm'];
+    $_SESSION['tech'] = $tech;
     $sql = "SELECT * FROM `client_satisfaction` WHERE tech = :tech ORDER BY `client_satisfaction`.`inter` DESC";
     $stmt = $db->prepare($sql);
     $stmt->bindParam('tech', $tech);
 } else {
     $sql = "SELECT * FROM `client_satisfaction` WHERE 1 ORDER BY `client_satisfaction`.`inter` DESC";
     $stmt = $db->prepare($sql);
+}
+if (isset($_SESSION['tech'])) {
+    $tech = $_SESSION['tech'];
+    $sql = "SELECT * FROM `client_satisfaction` WHERE tech = :tech ORDER BY `client_satisfaction`.`inter` DESC";
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam('tech', $tech);
+} else {
 }
 $stmt->execute();
 
@@ -111,7 +123,7 @@ if (isset($_POST['export'])) {
     </header>
     <div class="content">
         <div class="head">
-            <h1>Liste des questionnaires</h1>
+            <h1>Liste des avis client</h1>
             <div class="select-part">
                 <label>Trier par technicien :</label>
                 <div class="select">
@@ -124,6 +136,7 @@ if (isset($_POST['export'])) {
                             <option value="primiterra">Primiterra</option>
                             <option value="raspailj">Raspail</option>
                             <option value="tassel">Tassel</option>
+                            <option value="0">Tous</option>
                         </select>
                     </form>
                 </div>
@@ -132,32 +145,44 @@ if (isset($_POST['export'])) {
         <section class="list">
         <table>
             <thead>
-                <th>Intervention</th>
+                <th>Inter</th>
                 <th>Technicien</th>
-                <th>Adresse mail</th>
-                <th>Note du client</th>
-                <th>Date du formulaire</th>
+                <th class="th-email">Email</th>
+                <th class="th-note">Note</th>
+                <th>Date</th>
             </thead>
             <tbody>
             <?php
             $i = 0;
-            if (isset($_POST['format'])) {
-                $loop = $_POST['format'];
-            } else {
-                $loop = 15;
+            if (!isset($_SESSION['loop'])) {
+                if (isset($_POST['format'])) {
+                    $loop = $_POST['format'];
+                    $_SESSION['loop'] = $loop;
+                } else {
+                    $loop = 15;
+                }
             }
-            
+            if (isset($_SESSION['loop'])) {
+                if (isset($_POST['format'])) {
+                    $loop = $_POST['format'];
+                    $_SESSION['loop'] = $loop;
+                } else {
+                    $loop = $_SESSION['loop'];
+                }
+            }
             while ($query = $stmt->fetch()) {
                 $i++;
                 echo "<tr>";
                 echo "<td>" . $query['inter'] . "</td>";
-                echo "<td>"  . ucfirst($query['tech']) . "</td>";
+                echo "<td>"  . ucfirst(strtolower($query['tech'])) . "</td>";
                 echo "<td>" . $query['email'] . "</td>";
                 echo "<td>" . $query['choice'] . "</td>";
                 echo "<td>" . $query['inter_date'] . "</td>";
                 echo "</tr>";
-                if ($i == $loop) {
-                    break;
+                if ($loop !== "0"){
+                    if ($i == $loop) {
+                        break;
+                    }
                 }
             }?>
             </tbody>
@@ -175,7 +200,7 @@ if (isset($_POST['export'])) {
                             <option value="50">50</option>
                             <option value="100">100</option>
                             <option value="200">200</option>
-                            <option value="500">500</option>
+                            <option value="0">★</option>
                         </select>
                     </form>
                 </div>
