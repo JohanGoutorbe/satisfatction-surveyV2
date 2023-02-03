@@ -26,8 +26,8 @@
                 <span>Mot de passe</span>
                 <i></i>
             </div>
-            <div class="links">
-                <a href="#">Mot de passe oublié</a>
+            <div class="links" style="padding-bottom: 20px;">
+                <!--<a href="#">Mot de passe oublié</a>-->
             </div>
             <input type="submit" value="Login">
             <p>
