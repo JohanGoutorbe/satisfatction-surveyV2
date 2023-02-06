@@ -135,6 +135,44 @@ if (isset($_POST['export'])) {
     <div class="content">
         <div class="head">
             <h1>Liste des avis client</h1>
+            <div class="moyenne">
+                <?php
+                $totalNote = 0;
+                $i = 0;
+                if (isset($_SESSION['tech'])) {
+                    $techName = ucfirst(strtolower($_SESSION['tech']));
+                    if ($tech == 0) {
+                        $query = "SELECT DISTINCT `choice` FROM `client_satisfaction`";
+                        $moyenne = $db->prepare($query);
+                        $moyenne->execute();
+                        while ($query = $moyenne->fetch()) {
+                            $i++;
+                            $totalNote += $query['choice'];
+                        }
+                        echo ' <p>Moyenne du service info : ' . round($totalNote / $i, 2) . '</p>';
+                    } else {
+                        $query = "SELECT DISTINCT `choice` FROM `client_satisfaction` WHERE tech = :tech";
+                        $moyenne = $db->prepare($query);
+                        $moyenne->bindParam('tech', $techName);
+                        $moyenne->execute();
+                        while ($query = $moyenne->fetch()) {
+                            $i++;
+                            $totalNote += $query['choice'];
+                        }
+                        echo ' <p>Moyenne de ' . $techName . ' : ' . round($totalNote / $i, 2) . '</p>';
+                    }
+                } else {
+                    $query = "SELECT DISTINCT `choice` FROM `client_satisfaction`";
+                    $moyenne = $db->prepare($query);
+                    $moyenne->execute();
+                    while ($query = $moyenne->fetch()) {
+                        $i++;
+                        $totalNote += $query['choice'];
+                    }
+                    echo ' <p>Moyenne du service info : ' . round($totalNote / $i, 2) . '</p>';
+                }
+                ?>
+            </div>
             <div class="select-part">
                 <label>Trier par technicien :</label>
                 <div class="select">
@@ -182,9 +220,7 @@ if (isset($_POST['export'])) {
                             $loop = $_SESSION['loop'];
                         }
                     }
-
                     $i = 0;
-                    $totalNote = 0;
                     while ($query = $stmt->fetch()) {
                         $i++;
                         echo "<tr>";
@@ -235,7 +271,7 @@ if (isset($_POST['export'])) {
         };
 
         function scrollFunction() {
-            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            if (document.body.scrollTop > 750 || document.documentElement.scrollTop > 750) {
                 mybutton.style.display = "block";
             } else {
                 mybutton.style.display = "none";
