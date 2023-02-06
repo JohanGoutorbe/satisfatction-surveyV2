@@ -42,15 +42,11 @@ $url .= $_SERVER['REQUEST_URI'];
 $components = parse_url($url);
 parse_str($components['query'], $results);
 $inter = htmlspecialchars($results['inter']);
-$_SESSION['inter'] = $inter;
 $tech = strtolower(htmlspecialchars($results['tech']));
-$_SESSION['tech'] = $tech;
 $interdt = htmlspecialchars($results['date']);
-$_SESSION['interdt'] = $interdt;
 $choice = htmlspecialchars($results['choix']);
-$_SESSION['choice'] = $choice;
 $email = strtolower(htmlspecialchars($results['mail']));
-$_SESSION['email'] = $email;
+$_SESSION['inter'] = $inter;
 
 // Vérification du respect de la charte des paramètres de l'url
 if (ctype_digit($inter)) {
@@ -230,7 +226,7 @@ if ($request) {
                 <h1>Merci d'avoir donné votre avis</h1>
                 <p>Votre note de <?php echo $choice ?> étoiles concernant l'intervention <?php echo $inter; ?> a bien été pris en compte</p>
                 <p><span id="timer"></span></p>
-                <a href="https://www.officecenter.fr"><button type="button">OK</button></a>
+                <a href="http://localhost/satisfaction-surveyV2/ajouter_un_commentaire"><button type="button">Ajouter un commentaire</button></a>
             </div>
         </div>
     <?php } elseif ($query == 0) { ?>
@@ -250,7 +246,7 @@ if ($request) {
                 <h1>Votre choix a bien été modifié</h1>
                 <p>Votre nouvelle note de <?php echo $choice ?> étoiles concernant l'intervention <?php echo $inter; ?> a bien été pris en compte</p>
                 <p><span id="timer"></span></p>
-                <a href="http://localhost/satisfaction-surveyV2/ajouter_un_commentaire"><button type="button">OK</button></a>
+                <a href="http://localhost/satisfaction-surveyV2/ajouter_un_commentaire"><button type="button">Ajouter un commentaire</button></a>
             </div>
         <?php } ?>
 
