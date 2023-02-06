@@ -1,9 +1,60 @@
+<?php
+//Affichage du détail des erreurs
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Initialisation de la session
+session_start();
+
+//Déclaration des variables
+$caracteresMAX = 500;
+$_SESSION['errors'] = '';
+$_SESSION['commun'] = '171618458';
+
+// Connexion à la base de données
+define('USER', "root");
+define('PASSWD', "");
+define('SERVER', "localhost");
+define('BASE', 'officecequalit');
+
+$dsn = "mysql:dbname=" . BASE . ";host=" . SERVER;
+
+try {
+    $db = new PDO($dsn, USER, PASSWD);
+} catch (PDOException $e) {
+    die('Erreur : ' . $e->getMessage() . "<br>");
+}
+
+$inter = htmlspecialchars($_SESSION['inter']);
+
+if (isset($_POST['comment'])) {
+    $comment = htmlspecialchars($_POST['comment']);
+    $len = strlen($comment);
+    if ($len < $caracteresMAX){
+        $sql = "UPDATE client_satisfaction SET comment = :comment WHERE inter = :inter";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam('inter', $inter);
+        $stmt->bindParam('comment', $comment);
+        $stmt->execute();
+        $_SESSION['comment'] = $_SESSION['commun'];
+    } else {
+        $caractersSupp = $len - $caracteresMAX;
+        $_SESSION['comment'] = $comment;
+        $_SESSION['errors'] = '<p style="color:red; font-size:13px">500 caractères maximum.<br>Veuillez retirer ' . $caractersSupp . ' caractères au message<p>';
+    }
+} else {
+    $_SESSION['comment'];
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../favicon.png" type="image/x-icon">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Satisfaction Survey V2</title>
@@ -82,58 +133,29 @@
             cursor: pointer;
             box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
         }
+
+        textarea {
+            padding : 10px
+        }
     </style>
 </head>
 
 <body>
-    <?php
-    if ($query == 1) { ?>
-        <div class="container">
-            <div class="popup">
-                <img src="./tick.png">
-                <h1>Merci d'avoir donné votre avis</h1>
-                <p>Votre note de <?php echo $choice ?> étoiles concernant l'intervention <?php echo $inter; ?> a bien été pris en compte</p>
-                <p><span id="timer"></span></p>
-                <a href="https://www.officecenter.fr"><button type="button">OK</button></a>
-            </div>
+    <div class="container">
+        <div class="popup">
+            <img src="../tick.png">
+            <h1>Ajoutez un commentaire : </h1>
+            <form action="" method="post" name="commentForm">
+                <textarea name="comment" id="comment" cols="40" rows="5"></textarea>
+                <?php
+                    if (isset($_SESSION['errors'])) {
+                        echo "<br>" . $_SESSION['errors'];
+                    }
+                    ?>
+                <button type="submit">OK</button>
+            </form>
         </div>
-    <?php } elseif ($query == 0) { ?>
-        <div class="container">
-            <div class="popup open-popup">
-                <img src="./no.png">
-                <h1>Une erreur est survenue :</h1>
-                <p><?php echo $errors; ?></p>
-                <p><span id="timer"></span></p>
-                <a href="https://www.officecenter.fr"><button type="button">OK</button></a>
-            </div>
-        </div>
-    <?php } elseif ($query == 2) { ?>
-        <div class="container">
-            <div class="popup open-popup">
-                <img src="./tick.png">
-                <h1>Votre choix a bien été modifié</h1>
-                <p>Votre nouvelle note de <?php echo $choice ?> étoiles concernant l'intervention <?php echo $inter; ?> a bien été pris en compte</p>
-                <p><span id="timer"></span></p>
-                <a href="https://www.officecenter.fr"><button type="button">OK</button></a>
-            </div>
-        <?php } ?>
-
-        <script type="text/javascript">
-            let count = 5;
-            let redirect = "https://www.officecenter.fr/qualite/ajouter_un_commentaire";
-
-            function countdown() {
-                let timer = document.getElementById("timer");
-                if (count > 0) {
-                    count--;
-                    timer.innerHTML = "<br>Cette page sera redirigée dans <br><strong>" + count + " secondes.</strong>";
-                    setTimeout("countdown()", 1000);
-                } else {
-                    window.location.href = redirect;
-                }
-            }
-            //countdown();
-        </script>-->
+    </div>
 </body>
 
 </html>
