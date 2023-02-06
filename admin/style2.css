@@ -143,6 +143,7 @@ footer .queryInPage label {
     margin-top: auto;
     margin-bottom: auto;
 }
+
 form {
     height: 3em;
 }
@@ -186,6 +187,7 @@ select {
     transition: .25s all ease;
     border: none;
 }
+
 .select option {
     font-family: 'Poppins', sans-serif;
 }
@@ -194,28 +196,36 @@ select {
     .container {
         width: 95%;
     }
+
     header {
         margin-bottom: 0;
     }
+
     header button {
         margin: 0.25em 1em 0 0;
     }
+
     header form {
         height: 5em;
     }
+
     header a {
         height: 75px;
     }
+
     header .logout {
         margin-right: 35px;
     }
+
     h1 {
         font-weight: 500;
         letter-spacing: 0.05em;
     }
+
     .select-part {
         margin-right: 5%;
     }
+
     footer {
         padding-bottom: 25px;
     }
@@ -226,6 +236,7 @@ select {
         height: 75px;
         margin-bottom: 0;
     }
+
     header button {
         margin-right: 0;
         margin-left: 0;
@@ -233,31 +244,39 @@ select {
         justify-content: center;
         font-size: 20px;
     }
+
     header .export {
         margin-right: .5em;
     }
+
     header a {
         width: 170px;
     }
+
     header .logout {
         height: 40px;
         width: 170px;
     }
+
     header form {
         height: 5em;
         width: 112.5px;
     }
+
     header a {
         height: 65px;
     }
+
     h1 {
         font-size: 1.5em;
         font-weight: 500;
     }
+
     table thead th {
         font-size: 13px;
         font-weight: 500;
     }
+
     table tbody tr td {
         font-size: 13px;
     }
@@ -268,75 +287,95 @@ select {
         height: 45px;
         padding-bottom: 50px;
     }
+
     header form {
         height: 40px;
     }
+
     header button {
         height: 40px;
         font-size: 15px;
     }
+
     header a {
         height: 45px;
     }
+
     h1 {
         font-size: 1.25em;
     }
+
     .select-part {
         margin-right: 0;
     }
+
     select option {
         font-size: 0.8em;
     }
 }
+
 @media screen and (max-width: 550px) {
     .content {
         width: 95%;
         overflow-y: hidden;
     }
+
     header {
         display: flex;
         justify-content: space-evenly;
         margin-bottom: 1.5em;
     }
+
     .head {
         flex-direction: column;
     }
+
     h1 {
         width: 215px;
         margin: auto;
         margin-bottom: 1.5em;
     }
+
     .select-part {
         width: 258px;
         margin: auto;
         margin-bottom: 0.5em;
     }
+
     table thead th {
         padding-left: 0;
         padding-right: 15%;
         text-align: center;
+        padding-left: 2px;
 
     }
+
     table tbody tr td {
         padding-left: 0;
-        font-size: 11px;
+        font-size: 10px;
     }
+
     table thead .th-email {
         padding-left: 10px;
     }
+
     table thead .th-note {
         padding-right: 10px;
     }
+
     footer {
         display: flex;
         justify-content: center;
     }
+
     footer .select {
         width: 100px;
     }
+
     footer form {
         width: 100px;
     }
+
     footer form select {
         width: 100px;
     }
