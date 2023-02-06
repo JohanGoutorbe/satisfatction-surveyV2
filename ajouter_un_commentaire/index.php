@@ -38,6 +38,7 @@ if (isset($_POST['comment'])) {
         $stmt->bindParam('comment', $comment);
         $stmt->execute();
         $_SESSION['comment'] = $_SESSION['commun'];
+        $_SESSION['errors'] = '<p style="color:green; font-size:13px">Votre commentaire a bien été pris en compte<p>';
     } else {
         $caractersSupp = $len - $caracteresMAX;
         $_SESSION['comment'] = $comment;
@@ -144,15 +145,16 @@ if (isset($_POST['comment'])) {
     <div class="container">
         <div class="popup">
             <img src="../tick.png">
-            <h1>Ajoutez un commentaire : </h1>
+            <h1>Laisser un commentaire : </h1>
             <form action="" method="post" name="commentForm">
                 <textarea name="comment" id="comment" cols="40" rows="5"></textarea>
                 <?php
                     if (isset($_SESSION['errors'])) {
                         echo "<br>" . $_SESSION['errors'];
+                        $_SESSION["errors"] = "";
                     }
                     ?>
-                <button type="submit">OK</button>
+                <button type="submit">Envoyer mon message</button>
             </form>
         </div>
     </div>
