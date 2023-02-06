@@ -5,7 +5,12 @@ CREATE TABLE client_satisfaction (
     choice TINYINT UNSIGNED NOT NULL,
     survey_date VARCHAR(10) NOT NULL,
     inter_date VARCHAR(10) NOT NULL,
-    email VARCHAR(100) NOT NULL
+    email VARCHAR(100) NOT NULL,
+    comment TEXT
+)
+
+ALTER TABLE client_satisfaction (
+    ADD comment TEXT
 )
 
 INSERT INTO client_satisfaction (inter, tech, choice, survey_date, inter_date) VALUES (123456, "goutorbe", 5, "23/01/2023", "20/01/2023", "johan@officecenter.fr")
