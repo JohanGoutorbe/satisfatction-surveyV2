@@ -60,19 +60,28 @@ $_SESSION['password'] = $pwd;
 if (isset($_POST['techForm'])) {
     $tech = $_POST['techForm'];
     $_SESSION['tech'] = $tech;
-    $sql = "SELECT * FROM `client_satisfaction` WHERE tech = :tech ORDER BY `client_satisfaction`.`inter` DESC";
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam('tech', $tech);
+    if ($tech == 0) {
+        $sql = "SELECT * FROM `client_satisfaction` ORDER BY `client_satisfaction`.`inter` DESC";
+        $stmt = $db->prepare($sql);
+    } else {
+        $sql = "SELECT * FROM `client_satisfaction` WHERE tech = :tech ORDER BY `client_satisfaction`.`inter` DESC";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam('tech', $tech);
+    }
 } else {
-    $sql = "SELECT * FROM `client_satisfaction` WHERE 1 ORDER BY `client_satisfaction`.`inter` DESC";
+    $sql = "SELECT * FROM `client_satisfaction` ORDER BY `client_satisfaction`.`inter` DESC";
     $stmt = $db->prepare($sql);
 }
 if (isset($_SESSION['tech'])) {
     $tech = $_SESSION['tech'];
-    $sql = "SELECT * FROM `client_satisfaction` WHERE tech = :tech ORDER BY `client_satisfaction`.`inter` DESC";
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam('tech', $tech);
-} else {
+    if ($tech == 0) {
+        $sql = "SELECT * FROM `client_satisfaction` ORDER BY `client_satisfaction`.`inter` DESC";
+        $stmt = $db->prepare($sql);
+    } else {
+        $sql = "SELECT * FROM `client_satisfaction` WHERE tech = :tech ORDER BY `client_satisfaction`.`inter` DESC";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam('tech', $tech);
+    }
 }
 $stmt->execute();
 
@@ -103,11 +112,13 @@ if (isset($_POST['export'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" href="../favicon.png" type="image/x-icon">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Satisfaction Survey - View</title>
     <link rel="stylesheet" href="./style2.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -128,72 +139,74 @@ if (isset($_POST['export'])) {
                 <label>Trier par technicien :</label>
                 <div class="select">
                     <form action="" method="post" id="techForm">
-                        <select name="techForm" id="techForm" onchange="document.getElementById('techForm').submit()";>
+                        <select name="techForm" id="techForm" onchange="document.getElementById('techForm').submit()" ;>
                             <option value=""></option>
-                            <option value="charles">Charles</option>
-                            <option value="goutorbe">Goutorbe</option>
-                            <option value="lingua">Lingua</option>
-                            <option value="primiterra">Primiterra</option>
-                            <option value="raspailj">Raspail</option>
-                            <option value="tassel">Tassel</option>
-                            <option value="0">Tous</option>
+                            <?php
+                            $query = "SELECT DISTINCT `tech` FROM `client_satisfaction` GROUP BY `tech`";
+                            $techs = $db->prepare($query);
+                            $techs->execute();
+                            while ($tech = $techs->fetch()) {
+                                echo '<option value="' . strtolower($tech['tech']) . '">' . ucfirst(strtolower($tech['tech'])) . "</option>";
+                            }
+                            ?>
+                            <option value="0">TOUS</option>
                         </select>
                     </form>
                 </div>
             </div>
         </div>
         <section class="list">
-        <table>
-            <thead>
-                <th>Inter</th>
-                <th>Technicien</th>
-                <th class="th-email">Email</th>
-                <th class="th-note">Note</th>
-                <th>Date</th>
-            </thead>
-            <tbody>
-            <?php
-            $i = 0;
-            if (!isset($_SESSION['loop'])) {
-                if (isset($_POST['format'])) {
-                    $loop = $_POST['format'];
-                    $_SESSION['loop'] = $loop;
-                } else {
-                    $loop = 15;
-                }
-            }
-            if (isset($_SESSION['loop'])) {
-                if (isset($_POST['format'])) {
-                    $loop = $_POST['format'];
-                    $_SESSION['loop'] = $loop;
-                } else {
-                    $loop = $_SESSION['loop'];
-                }
-            }
-            while ($query = $stmt->fetch()) {
-                $i++;
-                echo "<tr>";
-                echo "<td>" . $query['inter'] . "</td>";
-                echo "<td>"  . ucfirst(strtolower($query['tech'])) . "</td>";
-                echo "<td>" . $query['email'] . "</td>";
-                echo "<td>" . $query['choice'] . "</td>";
-                echo "<td>" . $query['inter_date'] . "</td>";
-                echo "</tr>";
-                if ($loop !== "0"){
-                    if ($i == $loop) {
-                        break;
+            <table>
+                <thead>
+                    <th>Inter</th>
+                    <th>Technicien</th>
+                    <th class="th-email">Email</th>
+                    <th class="th-note">Note</th>
+                    <th>Date</th>
+                </thead>
+                <tbody>
+                    <?php
+                    $i = 0;
+                    if (!isset($_SESSION['loop'])) {
+                        if (isset($_POST['format'])) {
+                            $loop = $_POST['format'];
+                            $_SESSION['loop'] = $loop;
+                        } else {
+                            $loop = 15;
+                        }
                     }
-                }
-            }?>
-            </tbody>
-        </table>
+                    if (isset($_SESSION['loop'])) {
+                        if (isset($_POST['format'])) {
+                            $loop = $_POST['format'];
+                            $_SESSION['loop'] = $loop;
+                        } else {
+                            $loop = $_SESSION['loop'];
+                        }
+                    }
+                    while ($query = $stmt->fetch()) {
+                        $i++;
+                        echo "<tr>";
+                        echo "<td>" . $query['inter'] . "</td>";
+                        echo "<td>"  . ucfirst(strtolower($query['tech'])) . "</td>";
+                        echo "<td>" . $query['email'] . "</td>";
+                        echo "<td>" . $query['choice'] . "</td>";
+                        echo "<td>" . $query['inter_date'] . "</td>";
+                        echo "</tr>";
+                        if ($loop !== "0") {
+                            if ($i == $loop) {
+                                break;
+                            }
+                        }
+                    } ?>
+                </tbody>
+            </table>
         </section>
         <footer>
             <div class="queryInPage">
                 <label>Afficher</label>
                 <div class="select">
                     <form action="" method="post" id="form">
-                        <select name="format" id="format" onchange="document.getElementById('form').submit()";>
+                        <select name="format" id="format" onchange="document.getElementById('form').submit()" ;>
                             <option value=""></option>
                             <option value="10">10</option>
                             <option value="20">20</option>
@@ -211,4 +224,5 @@ if (isset($_POST['export'])) {
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
+
 </html>
