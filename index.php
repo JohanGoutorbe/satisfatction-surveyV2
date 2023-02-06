@@ -1,4 +1,4 @@
-<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=123456&tech=goutorbe&date=23/01/2023&choix=5&mail=test@officecenter.fr -->
+<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=999888&tech=goutorbe&date=23/01/2023&choix=4&mail=test@officecenter.fr -->
 <?php
 //Affichage du détail des erreurs
 ini_set('display_errors', 1);
