@@ -83,6 +83,10 @@ h1 {
     align-items: center;
 }
 
+label {
+    font-size: 1.1em;
+}
+
 table {
     width: 100%;
     margin-bottom: 25px;
@@ -127,6 +131,8 @@ thead, tfoot {
 
 footer {
     padding-bottom: 75px;
+    display: flex;
+    justify-content: right;
 }
 
 footer .queryInPage {
@@ -138,17 +144,18 @@ footer .queryInPage {
 }
 
 footer .queryInPage label {
-    height: 30px;
-    font-size: 1.1em;
     margin-top: auto;
     margin-bottom: auto;
 }
 
-form {
-    height: 3em;
+.select form {
+    height: 2.5em;
+    width: 5em;
 }
 
 select {
+    height: 2.5em;
+    width: 5em;
     appearance: none;
     outline: 0;
     box-shadow: none;
@@ -156,7 +163,6 @@ select {
     background: #1b74e4;
     background-image: none;
     flex: 1;
-    padding: 0 .5em;
     color: #fff;
     cursor: pointer;
     font-size: 1em;
@@ -190,6 +196,29 @@ select {
 
 .select option {
     font-family: 'Poppins', sans-serif;
+}
+
+.go-to-top {
+    margin: auto;
+}
+
+.go-to-top button {
+    margin: auto;
+    color: #fff;
+    background: #000;
+    padding: 8px 13px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 2px #000;
+    z-index: 999;
+    transition: .3s;
+}
+
+.go-to-top button:hover {
+    background: #fff;
+    box-shadow: 0 0 5px 2px #fff;
+    color: #000;
+    border-color: #fff;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 991px) {
@@ -369,14 +398,31 @@ select {
     }
 
     footer .select {
-        width: 100px;
+        width: 75px;
     }
 
     footer form {
-        width: 100px;
+        width: 75px;
     }
 
     footer form select {
-        width: 100px;
+        width: 75px;
+    }
+
+    label {
+        font-size: 1em;
+    }
+
+    footer .queryInPage label {
+        font-size: 1em;
+    }
+
+    footer .go-to-top {
+        margin-left: 10px;
+    }
+
+    footer .go-to-top button {
+        border-radius: 20px;
+        padding: 5px 8px;
     }
 }

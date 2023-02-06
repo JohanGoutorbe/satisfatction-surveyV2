@@ -166,7 +166,6 @@ if (isset($_POST['export'])) {
                 </thead>
                 <tbody>
                     <?php
-                    $i = 0;
                     if (!isset($_SESSION['loop'])) {
                         if (isset($_POST['format'])) {
                             $loop = $_POST['format'];
@@ -183,6 +182,9 @@ if (isset($_POST['export'])) {
                             $loop = $_SESSION['loop'];
                         }
                     }
+
+                    $i = 0;
+                    $totalNote = 0;
                     while ($query = $stmt->fetch()) {
                         $i++;
                         echo "<tr>";
@@ -221,8 +223,30 @@ if (isset($_POST['export'])) {
             </div>
         </footer>
     </div>
+    <div class="go-to-top">
+        <button onClick="topFunction()" id="myBtn" title="Go to top">Aller en haut</button>
+    </div>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        let mybutton = document.getElementById("myBtn");
+        window.onscroll = function() {
+            scrollFunction()
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                mybutton.style.display = "block";
+            } else {
+                mybutton.style.display = "none";
+            }
+        }
+
+        function topFunction() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
 </body>
 
 </html>
