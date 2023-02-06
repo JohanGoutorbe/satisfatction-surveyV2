@@ -91,14 +91,14 @@ if (isset($_POST['export'])) {
     $getdt = new \DateTime();
     $dt = $getdt->format('d/m/Y');
 
-    $query = "SELECT DISTINCT `inter`, `tech`, `choice`, `survey_date`, `inter_date`, `email` FROM `client_satisfaction` ORDER BY `inter` DESC";
+    $query = "SELECT DISTINCT `inter`, `tech`, `choice`, `survey_date`, `inter_date`, `email`, `comment` FROM `client_satisfaction` ORDER BY `inter` DESC";
     $export = $db->prepare($query);
     $export->execute();
 
-    $output .= '<table class="table"><tr><th>Intervention</th><th>Technicien</th><th>Note</th><th>Date</th><th>Email</th>';
+    $output .= '<table class="table"><tr><th>Intervention</th><th>Technicien</th><th>Note</th><th>Date</th><th>Email</th><th>Commentaire</th>';
     if (!empty($export)) {
         foreach ($export as $row) {
-            $output .= "\t" . '<tr><td>' . $row["inter"] . '</td>' . "\n" . '<td>' . $row["tech"] . '</td>' . "\n" . '<td>' . $row["choice"] . '</td>' . "\n" . '<td>' . $row["survey_date"] . '</td>' . "\n" . '<td>' . $row["email"] . '</td></tr>';
+            $output .= "\t" . '<tr><td>' . $row["inter"] . '</td>' . "\n" . '<td>' . $row["tech"] . '</td>' . "\n" . '<td>' . $row["choice"] . '</td>' . "\n" . '<td>' . $row["survey_date"] . '</td>' . "\n" . '<td>' . $row["email"] . '</td>' . "\n" . '<td>' . $row["comment"] . '</td></tr>';
         }
     }
     $output .= '</table>';
@@ -142,7 +142,7 @@ if (isset($_POST['export'])) {
                 if (isset($_SESSION['tech'])) {
                     $techName = ucfirst(strtolower($_SESSION['tech']));
                     if ($tech == 0) {
-                        $query = "SELECT DISTINCT `choice` FROM `client_satisfaction`";
+                        $query = "SELECT `choice` FROM `client_satisfaction`";
                         $moyenne = $db->prepare($query);
                         $moyenne->execute();
                         while ($query = $moyenne->fetch()) {
@@ -151,7 +151,7 @@ if (isset($_POST['export'])) {
                         }
                         echo ' <p>Moyenne du service info : ' . round($totalNote / $i, 2) . '</p>';
                     } else {
-                        $query = "SELECT DISTINCT `choice` FROM `client_satisfaction` WHERE tech = :tech";
+                        $query = "SELECT `choice` FROM `client_satisfaction` WHERE tech = :tech";
                         $moyenne = $db->prepare($query);
                         $moyenne->bindParam('tech', $techName);
                         $moyenne->execute();
@@ -162,7 +162,7 @@ if (isset($_POST['export'])) {
                         echo ' <p>Moyenne de ' . $techName . ' : ' . round($totalNote / $i, 2) . '</p>';
                     }
                 } else {
-                    $query = "SELECT DISTINCT `choice` FROM `client_satisfaction`";
+                    $query = "SELECT `choice` FROM `client_satisfaction`";
                     $moyenne = $db->prepare($query);
                     $moyenne->execute();
                     while ($query = $moyenne->fetch()) {
