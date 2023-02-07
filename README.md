@@ -39,7 +39,7 @@ Pour télécharger ce projet, vous avez deux options:
 1. Télécharger la dernière version en cliquant sur le bouton "Télécharger" sur la page GitHub du projet.
 2. Utiliser Git pour cloner le dépôt en utilisant la commande suivante :
 ```
-$ git clone https://github.com/JohanGoutorbe/satisfatction-surveyV2.git
+$ git clone https://github.com/JohanGoutorbe/satisaction-surveyV2.git
 ```
 ***
 ## Installation
