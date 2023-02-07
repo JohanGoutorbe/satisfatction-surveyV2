@@ -31,6 +31,7 @@ $inter = htmlspecialchars($_SESSION['inter']);
 if (isset($_POST['comment'])) {
     $comment = htmlspecialchars($_POST['comment']);
     $len = strlen($comment);
+    $_SESSION['timer'] = false;
     if ($len < $caracteresMAX){
         $sql = "UPDATE client_satisfaction SET comment = :comment WHERE inter = :inter";
         $stmt = $db->prepare($sql);
@@ -38,14 +39,13 @@ if (isset($_POST['comment'])) {
         $stmt->bindParam('comment', $comment);
         $stmt->execute();
         $_SESSION['comment'] = $_SESSION['commun'];
-        $_SESSION['errors'] = '<p style="color:green; font-size:13px">Votre commentaire a bien été pris en compte<p>';
+        $_SESSION['errors'] = '<p style="color:green; font-size:13px">Votre commentaire a bien été envoyé<p>';
+        $_SESSION['timer'] = true;
     } else {
         $caractersSupp = $len - $caracteresMAX;
         $_SESSION['comment'] = $comment;
         $_SESSION['errors'] = '<p style="color:red; font-size:13px">500 caractères maximum.<br>Veuillez retirer ' . $caractersSupp . ' caractères au message<p>';
     }
-} else {
-    $_SESSION['comment'];
 }
 
 ?>
@@ -153,11 +153,30 @@ if (isset($_POST['comment'])) {
                         echo "<br>" . $_SESSION['errors'];
                         $_SESSION["errors"] = "";
                     }
-                    ?>
+                    if ($_SESSION['timer']) { ?>
+                    <p><span id="timer"></span></p>
+                    <?php } ?>
                 <button type="submit">Envoyer mon message</button>
             </form>
         </div>
     </div>
+    <script type="text/javascript">
+        let count = 5;
+        let redirect = "https://www.officecenter.fr";
+
+        function countdown() {
+            let timer = document.getElementById("timer");
+            if (count > 0) {
+                count--;
+                timer.innerHTML = "<br>Cette page sera redirigée dans <strong>" + count + " secondes.</strong>";
+                setTimeout("countdown()", 1000);
+            } else {
+                window.location.href = redirect;
+            }
+        }
+        countdown();
+    </script>
+
 </body>
 
 </html>
