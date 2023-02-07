@@ -248,10 +248,10 @@ if ($request) {
                 <p><span id="timer"></span></p>
                 <a href="http://localhost/satisfaction-surveyV2/ajouter_un_commentaire"><button type="button">Ajouter un commentaire</button></a>
             </div>
-        <?php } ?>
+    <?php } ?>
 
         <script type="text/javascript">
-            let count = 5;
+            let count = 10;
             let redirect = "https://www.officecenter.fr";
 
             function countdown() {
@@ -264,7 +264,7 @@ if ($request) {
                     window.location.href = redirect;
                 }
             }
-            //countdown();
+            countdown();
         </script>-->
 </body>
 
