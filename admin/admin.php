@@ -9,8 +9,8 @@ session_start();
 $output = "";
 
 // Déclaration des identifiants de connexion attendus
-$identifiant = 'adminoc';
-$password = 'Pa$$w0rdoc';
+$identifiant = 'login';
+$password = 'Password';
 
 // Connexion à la base de données
 define('USER', "root");
