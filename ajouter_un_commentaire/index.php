@@ -11,6 +11,7 @@ session_start();
 $caracteresMAX = 500;
 $_SESSION['errors'] = '';
 $_SESSION['commun'] = '171618458';
+$_SESSION['timer'] = false;
 
 // Connexion à la base de données
 define('USER', "root");
@@ -18,10 +19,12 @@ define('PASSWD', "");
 define('SERVER', "localhost");
 define('BASE', 'officecequalit');
 
-$dsn = "mysql:dbname=" . BASE . ";host=" . SERVER;
+$dsn = "mysql:dbname=" . BASE . ";host=" . SERVER . ";charset=utf8";
 
 try {
     $db = new PDO($dsn, USER, PASSWD);
+    $db->exec("SET NAMES utf8");
+    $db->exec("SET CHARACTER SET utf8");
 } catch (PDOException $e) {
     die('Erreur : ' . $e->getMessage() . "<br>");
 }
@@ -147,36 +150,16 @@ if (isset($_POST['comment'])) {
             <img src="../tick.png">
             <h1>Laisser un commentaire : </h1>
             <form action="" method="post" name="commentForm">
-                <textarea name="comment" id="comment" cols="40" rows="5"></textarea>
+                <textarea name="comment" id="comment" cols="0" rows="5"></textarea>
                 <?php
                     if (isset($_SESSION['errors'])) {
                         echo "<br>" . $_SESSION['errors'];
                         $_SESSION["errors"] = "";
-                    }
-                    if ($_SESSION['timer']) { ?>
-                    <p><span id="timer"></span></p>
-                    <?php } ?>
+                    } ?>
                 <button type="submit">Envoyer mon message</button>
             </form>
         </div>
     </div>
-    <script type="text/javascript">
-        let count = 5;
-        let redirect = "https://www.officecenter.fr";
-
-        function countdown() {
-            let timer = document.getElementById("timer");
-            if (count > 0) {
-                count--;
-                timer.innerHTML = "<br>Cette page sera redirigée dans <strong>" + count + " secondes.</strong>";
-                setTimeout("countdown()", 1000);
-            } else {
-                window.location.href = redirect;
-            }
-        }
-        countdown();
-    </script>
-
 </body>
 
 </html>
