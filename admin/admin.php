@@ -98,12 +98,12 @@ if (isset($_POST['export'])) {
     $output .= '<table class="table"><tr><th>Intervention</th><th>Technicien</th><th>Note</th><th>Date</th><th>Email</th><th>Commentaire</th>';
     if (!empty($export)) {
         foreach ($export as $row) {
-            $output .= "\t" . '<tr><td>' . $row["inter"] . '</td>' . "\n" . '<td>' . $row["tech"] . '</td>' . "\n" . '<td>' . $row["choice"] . '</td>' . "\n" . '<td>' . $row["survey_date"] . '</td>' . "\n" . '<td>' . $row["email"] . '</td>' . "\n" . '<td>' . $row["comment"] . '</td></tr>';
+            $output .= "\t" . '<tr><td>' . $row["inter"] . '</td>' . "\n" . '<td>' . $row["tech"] . '</td>' . "\n" . '<td>' . $row["choice"] . '</td>' . "\n" . '<td>' . $row["survey_date"] . '</td>' . "\n" . '<td>' . $row["email"] . '</td>' . "\n" . '<td>' . utf8_decode((string)$row["comment"]) . '</td></tr>';
         }
     }
     $output .= '</table>';
     $filename = "export_questionnaire_satisfaction_" . $dt . ".xls";
-    header("Content-Type: application/xls");
+    header("Content-Type: application/xls; charset=UTF-8");
     header("Content-Disposition: attachment; filename=\"$filename\"");
     echo $output;
     exit();
@@ -201,6 +201,7 @@ if (isset($_POST['export'])) {
                     <th class="th-email">Email</th>
                     <th class="th-note">Note</th>
                     <th>Date</th>
+                    <th>Commentaire</th>
                 </thead>
                 <tbody>
                     <?php
@@ -223,13 +224,14 @@ if (isset($_POST['export'])) {
                     $i = 0;
                     while ($query = $stmt->fetch()) {
                         $i++;
-                        echo "<tr>";
-                        echo "<td>" . $query['inter'] . "</td>";
-                        echo "<td>"  . ucfirst(strtolower($query['tech'])) . "</td>";
-                        echo "<td>" . $query['email'] . "</td>";
-                        echo "<td>" . $query['choice'] . "</td>";
-                        echo "<td>" . $query['inter_date'] . "</td>";
-                        echo "</tr>";
+                        echo '<tr>';
+                        echo '<td style="padding-right:3px;">' . $query['inter'] . '</td>';
+                        echo '<td>'  . ucfirst(strtolower($query['tech'])) . '</td>';
+                        echo '<td class="email">' . $query['email'] . '</td>';
+                        echo '<td>' . $query['choice'] . '</td>';
+                        echo '<td>' . $query['inter_date'] . '</td>';
+                        echo '<td class="comment" style="word-wrap: break-word; text-align: justify;">' . $query['comment'] . '</td>';
+                        echo '</tr>';
                         if ($loop !== "0") {
                             if ($i == $loop) {
                                 break;
