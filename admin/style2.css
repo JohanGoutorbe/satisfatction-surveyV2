@@ -134,6 +134,11 @@ table tbody tr td {
     padding-left: 30px;
 }
 
+.comment {
+    max-width: 250px;
+    padding-right: 25px;
+}
+
 thead, tfoot {
     background-color: #333;
     color: #fff;
@@ -355,7 +360,7 @@ select {
 
 @media screen and (max-width: 550px) {
     .content {
-        width: 95%;
+        width: 98%;
         overflow-y: hidden;
     }
 
@@ -391,7 +396,17 @@ select {
         padding-right: 15%;
         text-align: center;
         padding-left: 2px;
+        font-size: 10px;
 
+    }
+
+    table thead .th-email {
+        padding-left: 0;
+    }
+
+    table thead .th-note {
+        padding-left: 0;
+        padding-right: 3px;
     }
 
     table tbody tr td {
@@ -399,12 +414,14 @@ select {
         font-size: 10px;
     }
 
-    table thead .th-email {
-        padding-left: 10px;
+    .email {
+        max-width: 110px;
+        padding-right: 3px;
     }
 
-    table thead .th-note {
-        padding-right: 10px;
+    .comment {
+        padding-right: 0;
+        font-size: 9px;
     }
 
     footer {
@@ -449,7 +466,7 @@ select {
         border-radius: 25px;
         transition: .3s;
     }
-    
+
     .moyenne p {
         font-size: 0.8em;
     }
