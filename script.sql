@@ -7,9 +7,17 @@ CREATE TABLE client_satisfaction (
     inter_date VARCHAR(10) NOT NULL,
     email VARCHAR(100) NOT NULL,
     comment TEXT
+    NumClient INT(6) UNSIGNED NOT NULL
+    NumPack  INT(6) UNSIGNED NOT NULL
 )
 
 ALTER TABLE client_satisfaction
 ADD comment TEXT
+
+ALTER TABLE client_satisfaction
+ADD NumClient INT(6) UNSIGNED NOT NULL
+
+ALTER TABLE client_satisfaction
+ADD NumPack  INT(6) UNSIGNED NOT NULL
 
 INSERT INTO client_satisfaction (inter, tech, choice, survey_date, inter_date) VALUES (123456, "goutorbe", 5, "23/01/2023", "20/01/2023", "johan@officecenter.fr")
