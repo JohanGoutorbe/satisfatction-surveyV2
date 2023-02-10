@@ -46,6 +46,8 @@ $tech = strtolower(htmlspecialchars($results['tech']));
 $interdt = htmlspecialchars($results['date']);
 $choice = htmlspecialchars($results['choix']);
 $email = strtolower(htmlspecialchars($results['mail']));
+$NumClient = htmlspecialchars($results['NumClient']);
+$NumPack = htmlspecialchars($results['NumPack']);
 $_SESSION['inter'] = $inter;
 
 // Vérification du respect de la charte des paramètres de l'url
@@ -55,7 +57,15 @@ if (ctype_digit($inter)) {
             if (DateTime::createFromFormat($format, $interdt)) {
                 if ($choice > 0 && $choice < 6) {
                     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        $request = true;
+                        if (ctype_digit($NumClient)) {
+                            if (ctype_digit($NumPack)) {
+                                $request = true;
+                            } else {
+                                $errors .= "Le numéro du pack <strong>" . $email . "</strong> est incorrect";
+                            }
+                        } else {
+                            $errors .= "Le numéro client <strong>" . $email . "</strong> est incorrect";
+                        }
                     } else {
                         $errors .= "L'adresse email <strong>" . $email . "</strong> est incorrecte";
                     }
@@ -92,7 +102,7 @@ if ($request) {
         $emailCount = $getEmail->rowCount();
 
         // Application de la requête préparée
-        $sql = "INSERT INTO `client_satisfaction` (inter, tech, choice, survey_date, inter_date, email) VALUES (:inter, :tech, :choice, :dt, :interdt, :email)";
+        $sql = "INSERT INTO `client_satisfaction` (inter, tech, choice, survey_date, inter_date, email, NumClient, NumPack) VALUES (:inter, :tech, :choice, :dt, :interdt, :email, :NumClient, :NumPack)";
         $stmt = $db->prepare($sql);
         $stmt->bindParam('inter', $inter);
         $stmt->bindParam('tech', $tech);
@@ -100,6 +110,8 @@ if ($request) {
         $stmt->bindParam('dt', $dt);
         $stmt->bindParam('interdt', $interdt);
         $stmt->bindParam('email', $email);
+        $stmt->bindParam('NumClient', $NumClient);
+        $stmt->bindParam('NumPack', $NumPack);
         $stmt->execute();
 
         // Si l'email n'a pas encore mis 5 étoiles, rediriger vers la note Google
