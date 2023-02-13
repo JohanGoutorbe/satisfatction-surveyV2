@@ -91,14 +91,14 @@ if (isset($_POST['export'])) {
     $getdt = new \DateTime();
     $dt = $getdt->format('d/m/Y');
 
-    $query = "SELECT DISTINCT `inter`, `tech`, `choice`, `survey_date`, `inter_date`, `email`, `comment` FROM `client_satisfaction` ORDER BY `id` DESC";
+    $query = "SELECT DISTINCT `inter`, `tech`, `choice`, `survey_date`, `inter_date`, `email`, `comment`, `NumClient`, `NumPack`  FROM `client_satisfaction` ORDER BY `id` DESC";
     $export = $db->prepare($query);
     $export->execute();
 
-    $output .= '<table class="table"><tr><th>Intervention</th><th>Technicien</th><th>Note</th><th>Date</th><th>Email</th><th>Commentaire</th>';
+    $output .= '<table class="table"><tr><th>Intervention</th><th>Technicien</th><th>Note</th><th>Date</th><th>Email</th><th>Commentaire</th><th>NumeroClient</th><th>NumeroPack</th>';
     if (!empty($export)) {
         foreach ($export as $row) {
-            $output .= "\t" . '<tr><td>' . $row["inter"] . '</td>' . "\n" . '<td>' . $row["tech"] . '</td>' . "\n" . '<td>' . $row["choice"] . '</td>' . "\n" . '<td>' . $row["survey_date"] . '</td>' . "\n" . '<td>' . $row["email"] . '</td>' . "\n" . '<td>' . utf8_decode((string)$row["comment"]) . '</td></tr>';
+            $output .= "\t" . '<tr><td>' . $row["inter"] . '</td>' . "\n" . '<td>' . $row["tech"] . '</td>' . "\n" . '<td>' . $row["choice"] . '</td>' . "\n" . '<td>' . $row["survey_date"] . '</td>' . "\n" . '<td>' . $row["email"] . '</td>' . "\n" . '<td>' . utf8_decode((string)$row["comment"]) . '</td>' . "\n" . '<td>' . $row["NumClient"] . '</td>' . "\n" . '<td>' . $row["NumPack"] . '</td></tr>';
         }
     }
     $output .= '</table>';
@@ -198,10 +198,12 @@ if (isset($_POST['export'])) {
                 <thead>
                     <th>Inter</th>
                     <th>Technicien</th>
-                    <th class="th-email">Email</th>
+                    <th class="th-email">Client</th>
                     <th class="th-note">Note</th>
                     <th>Date</th>
                     <th>Commentaire</th>
+                    <th style="padding-left:0">NumClient</th>
+                    <th style="padding-left:0">NumPack</th>
                 </thead>
                 <tbody>
                     <?php
@@ -225,12 +227,14 @@ if (isset($_POST['export'])) {
                     while ($query = $stmt->fetch()) {
                         $i++;
                         echo '<tr>';
-                        echo '<td style="padding-right:3px;">' . $query['inter'] . '</td>';
-                        echo '<td>'  . ucfirst(strtolower($query['tech'])) . '</td>';
-                        echo '<td class="email">' . $query['email'] . '</td>';
-                        echo '<td>' . $query['choice'] . '</td>';
-                        echo '<td>' . $query['inter_date'] . '</td>';
+                        echo '<td style="padding-right:3px; width:125px">' . $query['inter'] . '</td>';
+                        echo '<td style="width:150px">'  . ucfirst(strtolower($query['tech'])) . '</td>';
+                        echo '<td class="email" style="width:325px">' . $query['email'] . '</td>';
+                        echo '<td style="width:50px">' . $query['choice'] . '</td>';
+                        echo '<td style="width:125px">' . $query['inter_date'] . '</td>';
                         echo '<td class="comment" style="word-wrap: break-word; text-align: justify;">' . $query['comment'] . '</td>';
+                        echo '<td style="width:150px">' . $query['NumClient'] . '</td>';
+                        echo '<td style="width:150px">' . $query['NumPack'] . '</td>';
                         echo '</tr>';
                         if ($loop !== "0") {
                             if ($i == $loop) {
