@@ -9,6 +9,7 @@ session_start();
 
 //Déclaration des variables
 $caracteresMAX = 500;
+$query = 0;
 $_SESSION['errors'] = '';
 $_SESSION['commun'] = '171618458';
 $_SESSION['timer'] = false;
@@ -29,7 +30,20 @@ try {
     die('Erreur : ' . $e->getMessage() . "<br>");
 }
 
-$inter = htmlspecialchars($_SESSION['inter']);
+// Récupération de l'url
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+    $url = "https://";
+} else {
+    $url = "http://";
+}
+$url .= $_SERVER['HTTP_HOST'];
+$sturl = $url;
+$url .= $_SERVER['REQUEST_URI'];
+
+// Récupération des paramètres de l'url
+$components = parse_url($url);
+parse_str($components['query'], $results);
+$inter = htmlspecialchars($results['inter']);
 
 if (isset($_POST['comment'])) {
     $comment = htmlspecialchars($_POST['comment']);
@@ -41,12 +55,10 @@ if (isset($_POST['comment'])) {
         $stmt->bindParam('inter', $inter);
         $stmt->bindParam('comment', $comment);
         $stmt->execute();
-        $_SESSION['comment'] = $_SESSION['commun'];
         $_SESSION['errors'] = '<p style="color:green; font-size:13px">Votre commentaire a bien été envoyé<p>';
         $_SESSION['timer'] = true;
     } else {
         $caractersSupp = $len - $caracteresMAX;
-        $_SESSION['comment'] = $comment;
         $_SESSION['errors'] = '<p style="color:red; font-size:13px">500 caractères maximum.<br>Veuillez retirer ' . $caractersSupp . ' caractères au message<p>';
     }
 }
