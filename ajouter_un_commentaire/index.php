@@ -12,7 +12,7 @@ $caracteresMAX = 500;
 $query = 0;
 $_SESSION['errors'] = '';
 $_SESSION['commun'] = '171618458';
-$_SESSION['timer'] = false;
+$_SESSION['com'] = false;
 
 // Connexion à la base de données
 define('USER', "root");
@@ -49,14 +49,14 @@ if (isset($_POST['comment'])) {
     $comment = htmlspecialchars($_POST['comment']);
     $len = strlen($comment);
     $_SESSION['timer'] = false;
-    if ($len < $caracteresMAX){
+    if ($len < $caracteresMAX) {
         $sql = "UPDATE client_satisfaction SET comment = :comment WHERE inter = :inter";
         $stmt = $db->prepare($sql);
         $stmt->bindParam('inter', $inter);
         $stmt->bindParam('comment', $comment);
         $stmt->execute();
-        $_SESSION['errors'] = '<p style="color:green; font-size:13px">Votre commentaire a bien été envoyé<p>';
-        $_SESSION['timer'] = true;
+        $_SESSION['errors'] = '<h2 style="color:#1ab231; font-size:23px">Votre commentaire a bien été envoyé<h2>';
+        $_SESSION['com'] = true;
     } else {
         $caractersSupp = $len - $caracteresMAX;
         $_SESSION['errors'] = '<p style="color:red; font-size:13px">500 caractères maximum.<br>Veuillez retirer ' . $caractersSupp . ' caractères au message<p>';
@@ -151,26 +151,43 @@ if (isset($_POST['comment'])) {
         }
 
         textarea {
-            padding : 10px
+            padding: 10px
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="popup">
-            <img src="../tick.png">
-            <h1>Laisser un commentaire : </h1>
-            <form action="" method="post" name="commentForm">
-                <textarea name="comment" id="comment" cols="0" rows="5"></textarea>
-                <?php
+        <?php
+        if ($_SESSION['com']) { ?>
+            <div class="popup">
+                <img src="../tick.png">
+                <h1>Merci pour votre commentaire </h1>
+                <form action="" method="post" name="commentForm">
+                    <div style="height: 75px;"></div>
+                    <?php
                     if (isset($_SESSION['errors'])) {
                         echo "<br>" . $_SESSION['errors'];
                         $_SESSION["errors"] = "";
                     } ?>
-                <button type="submit">Envoyer mon message</button>
-            </form>
-        </div>
+                    <button type="submit">Continuer vers notre site web</button>
+                </form>
+            </div>
+        <?php } else { ?>
+            <div class="popup">
+                <img src="../tick.png">
+                <h1>Laissez un commentaire : </h1>
+                <form action="" method="post" name="commentForm">
+                    <textarea name="comment" id="comment" cols="0" rows="5"></textarea>
+                    <?php
+                    if (isset($_SESSION['errors'])) {
+                        echo "<br>" . $_SESSION['errors'];
+                        $_SESSION["errors"] = "";
+                    } ?>
+                    <button type="submit">Envoyer</button>
+                </form>
+            </div>
+        <?php } ?>
     </div>
 </body>
 
