@@ -1,4 +1,4 @@
-<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=999888&tech=goutorbe&date=23/01/2023&choix=4&mail=test@officecenter.fr -->
+<!-- URL Type : http://localhost/satisfaction-surveyV2/index.php?inter=999888&tech=goutorbe&date=23/01/2023&choix=4&mail=test@officecenter.fr&NumClient=8888&NumPack=9999 -->
 <?php
 //Affichage du détail des erreurs
 ini_set('display_errors', 1);
@@ -48,7 +48,6 @@ $choice = htmlspecialchars($results['choix']);
 $email = strtolower(htmlspecialchars($results['mail']));
 $NumClient = htmlspecialchars($results['NumClient']);
 $NumPack = htmlspecialchars($results['NumPack']);
-$_SESSION['inter'] = $inter;
 
 // Vérification du respect de la charte des paramètres de l'url
 if (ctype_digit($inter)) {
@@ -238,7 +237,7 @@ if ($request) {
                 <h1>Merci d'avoir donné votre avis</h1>
                 <p>Votre note de <?php echo $choice ?> étoiles concernant l'intervention <?php echo $inter; ?> a bien été pris en compte</p>
                 <p><span id="timer"></span></p>
-                <a href="http://localhost/satisfaction-surveyV2/ajouter_un_commentaire"><button type="button">Ajouter un commentaire</button></a>
+                <a href=<?php echo 'http://localhost/satisfaction-surveyV2/ajouter_un_commentaire/index.php?inter=' . $inter; ?>><button type="button">Ajouter un commentaire</button></a>
             </div>
         </div>
     <?php } elseif ($query == 0) { ?>
@@ -258,7 +257,7 @@ if ($request) {
                 <h1>Votre choix a bien été modifié</h1>
                 <p>Votre nouvelle note de <?php echo $choice ?> étoiles concernant l'intervention <?php echo $inter; ?> a bien été pris en compte</p>
                 <p><span id="timer"></span></p>
-                <a href="http://localhost/satisfaction-surveyV2/ajouter_un_commentaire"><button type="button">Ajouter un commentaire</button></a>
+                <a href=<?php echo 'http://localhost/satisfaction-surveyV2/ajouter_un_commentaire?inter=' . $inter; ?>><button type="button">Ajouter un commentaire</button></a>
             </div>
     <?php } ?>
 
