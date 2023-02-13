@@ -61,24 +61,24 @@ if (isset($_POST['techForm'])) {
     $tech = $_POST['techForm'];
     $_SESSION['tech'] = $tech;
     if ($tech == 0) {
-        $sql = "SELECT * FROM `client_satisfaction` ORDER BY `client_satisfaction`.`inter` DESC";
+        $sql = "SELECT * FROM `client_satisfaction` ORDER BY `client_satisfaction`.`id` DESC";
         $stmt = $db->prepare($sql);
     } else {
-        $sql = "SELECT * FROM `client_satisfaction` WHERE tech = :tech ORDER BY `client_satisfaction`.`inter` DESC";
+        $sql = "SELECT * FROM `client_satisfaction` WHERE tech = :tech ORDER BY `client_satisfaction`.`id` DESC";
         $stmt = $db->prepare($sql);
         $stmt->bindParam('tech', $tech);
     }
 } else {
-    $sql = "SELECT * FROM `client_satisfaction` ORDER BY `client_satisfaction`.`inter` DESC";
+    $sql = "SELECT * FROM `client_satisfaction` ORDER BY `client_satisfaction`.`id` DESC";
     $stmt = $db->prepare($sql);
 }
 if (isset($_SESSION['tech'])) {
     $tech = $_SESSION['tech'];
     if ($tech == 0) {
-        $sql = "SELECT * FROM `client_satisfaction` ORDER BY `client_satisfaction`.`inter` DESC";
+        $sql = "SELECT * FROM `client_satisfaction` ORDER BY `client_satisfaction`.`id` DESC";
         $stmt = $db->prepare($sql);
     } else {
-        $sql = "SELECT * FROM `client_satisfaction` WHERE tech = :tech ORDER BY `client_satisfaction`.`inter` DESC";
+        $sql = "SELECT * FROM `client_satisfaction` WHERE tech = :tech ORDER BY `client_satisfaction`.`id` DESC";
         $stmt = $db->prepare($sql);
         $stmt->bindParam('tech', $tech);
     }
@@ -91,7 +91,7 @@ if (isset($_POST['export'])) {
     $getdt = new \DateTime();
     $dt = $getdt->format('d/m/Y');
 
-    $query = "SELECT DISTINCT `inter`, `tech`, `choice`, `survey_date`, `inter_date`, `email`, `comment` FROM `client_satisfaction` ORDER BY `inter` DESC";
+    $query = "SELECT DISTINCT `inter`, `tech`, `choice`, `survey_date`, `inter_date`, `email`, `comment` FROM `client_satisfaction` ORDER BY `id` DESC";
     $export = $db->prepare($query);
     $export->execute();
 
