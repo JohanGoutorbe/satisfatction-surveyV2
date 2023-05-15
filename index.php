@@ -135,8 +135,9 @@ if ($request) {
 
         // Si l'email n'a pas encore mis 5 étoiles, rediriger vers la note Google
         if ($emailCount == 0 && $choice == 5) {
-            header("Location: https://g.page/r/CQ_CHW3pUmqBEAI/review");
+            echo '<script>window.location.href = "https://g.page/r/CQ_CHW3pUmqBEAI/review";</script>';
         }
+
     }
 }
 ?>
