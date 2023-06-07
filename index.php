@@ -132,11 +132,13 @@ if ($request) {
         $stmt->bindParam('inter', $inter);
         $stmt->execute();
         $query = 2;
-
+        
         // Si l'email n'a pas encore mis 5 étoiles, rediriger vers la note Google
         if ($emailCount == 0 && $choice == 5) {
-            echo '<script>window.location.href = "https://g.page/r/CQ_CHW3pUmqBEAI/review";</script>';
+            header("Location: https://g.page/r/CQ_CHW3pUmqBEAI/review");
+            exit();
         }
+        $query = 2;
 
     }
 }
